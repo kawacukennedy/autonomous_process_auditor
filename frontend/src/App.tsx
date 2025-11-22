@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import Header from './components/Header'; // Header component
 import Footer from './components/Footer'; // Footer component
 import Notification from './components/Notification';
+import ErrorBoundary from './components/ErrorBoundary';
 import Dashboard from './pages/Dashboard';
 import ProcessConfig from './pages/ProcessConfig';
 import Input from './pages/Input';
@@ -39,34 +40,36 @@ function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
-          <Header />
-          {/* Main content area */}
-          <main className="flex-grow">
-            {/* Application Routes */}
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/processes" element={<ProcessConfig />} />
-              <Route path="/input" element={<Input />} />
-              <Route path="/findings/:id" element={<Findings />} />
-              <Route path="/agents/:agentId" element={<AgentConsole />} />
-              <Route path="/login" element={<Auth />} />
-              <Route path="/reports" element={<Reports />} />
-            </Routes>
-          </main>
-          <Footer />
-          {notification && (
-            <Notification
-              message={notification.message}
-              type={notification.type}
-              onClose={() => setNotification(null)}
-            />
-          )}
-        </div>
-      </Router>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
+            <Header />
+            {/* Main content area */}
+            <main className="flex-grow">
+              {/* Application Routes */}
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/processes" element={<ProcessConfig />} />
+                <Route path="/input" element={<Input />} />
+                <Route path="/findings/:id" element={<Findings />} />
+                <Route path="/agents/:agentId" element={<AgentConsole />} />
+                <Route path="/login" element={<Auth />} />
+                <Route path="/reports" element={<Reports />} />
+              </Routes>
+            </main>
+            <Footer />
+            {notification && (
+              <Notification
+                message={notification.message}
+                type={notification.type}
+                onClose={() => setNotification(null)}
+              />
+            )}
+          </div>
+        </Router>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 
