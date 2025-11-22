@@ -47,6 +47,7 @@ fastify.register(teamRoutes);
 fastify.register(findingRoutes);
 fastify.register(agentTraceRoutes);
 fastify.register(reportRoutes);
+fastify.register(healthRoutes);
 
 // Routes
 fastify.get('/', async (request, reply) => {
