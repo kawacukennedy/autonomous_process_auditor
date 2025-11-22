@@ -1,3 +1,4 @@
+// Findings page with visualizations and remediation plans
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
