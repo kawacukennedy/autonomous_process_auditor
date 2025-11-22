@@ -93,10 +93,10 @@ const Findings: React.FC = () => {
     <div className="p-8 bg-gray-50 dark:bg-gray-900">
       <h1 className="text-2xl font-bold mb-6">Findings & Recommendations</h1>
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
         {/* Timeline Chart */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-4">Approval Delay Timeline</h3>
+        <div className="card">
+          <h3 className="text-large mb-6">Approval Delay Timeline</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={timelineData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -108,8 +108,8 @@ const Findings: React.FC = () => {
           </ResponsiveContainer>
         </div>
         {/* Heatmap Chart */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-4">Delay Frequency by Process</h3>
+        <div className="card">
+          <h3 className="text-large mb-6">Delay Frequency by Process</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={heatmapData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -121,8 +121,8 @@ const Findings: React.FC = () => {
           </ResponsiveContainer>
         </div>
         {/* Swimlane Chart */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-4">Process Swimlane (Stuck Approvals)</h3>
+        <div className="card">
+          <h3 className="text-large mb-6">Process Swimlane (Stuck Approvals)</h3>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={swimlaneData} layout="horizontal">
               <CartesianGrid strokeDasharray="3 3" />
@@ -135,17 +135,17 @@ const Findings: React.FC = () => {
         </div>
       </div>
       {/* Remediation Plan Section */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h3 className="text-lg font-semibold mb-4">Remediation Plan</h3>
+      <div className="card mb-8">
+        <h3 className="text-large mb-6">Remediation Plan</h3>
         <ol className="list-decimal list-inside space-y-2">
           {results?.actions?.map((action: any, index: number) => (
             <li key={index}>{action.resultJson?.plan || 'Remediation action'}</li>
           )) || <li>No actions available</li>}
         </ol>
       </div>
-       {/* Action Control */}
-       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-6">
-         <h3 className="text-lg font-semibold mb-4">Remediation Control</h3>
+      {/* Action Control */}
+      <div className="card mb-8">
+        <h3 className="text-large mb-6">Remediation Control</h3>
          <div className="flex items-center space-x-4 mb-4">
            <label className="flex items-center">
              <input type="radio" name="actionMode" value="propose" defaultChecked className="mr-2" />
@@ -178,8 +178,8 @@ const Findings: React.FC = () => {
          </div>
        </div>
       {/* Feedback Section */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold mb-4">Provide Feedback</h3>
+      <div className="card">
+        <h3 className="text-large mb-6">Provide Feedback</h3>
         <form
           className="space-y-4"
           onSubmit={(e) => {

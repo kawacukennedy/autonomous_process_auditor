@@ -41,7 +41,7 @@ const AgentConsole: React.FC = () => {
     <div className="p-8 bg-gray-50 dark:bg-gray-900">
       <h1 className="text-2xl font-bold mb-6">Agent Console / Orchestrate Trace</h1>
       {/* Agent Trace Section */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-6">
+      <div className="card mb-8">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Agent Traces</h3>
           <button
@@ -73,7 +73,7 @@ const AgentConsole: React.FC = () => {
         </div>
       </div>
       {/* Logs Section */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      <div className="card">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">{showRawLogs ? 'Raw Logs' : 'Summarized Explanation'}</h3>
           <button

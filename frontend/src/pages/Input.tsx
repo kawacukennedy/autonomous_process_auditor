@@ -30,22 +30,22 @@ const Input: React.FC = () => {
     <div className="p-8 bg-gray-50">
       <h1 className="text-2xl font-bold mb-6">Core Feature Input</h1>
       {/* Upload Logs Section */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h3 className="text-lg font-semibold mb-4">Upload Sample Logs</h3>
+      <div className="card mb-8">
+        <h3 className="text-large mb-6">Upload Sample Logs</h3>
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="Paste your workflow logs here..."
-          className="w-full h-32 p-3 border rounded resize-none"
+          className="input-field h-40 resize-none"
         />
       </div>
       {/* Scenario Selection */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h3 className="text-lg font-semibold mb-4">Select Demo Scenario</h3>
+      <div className="card mb-8">
+        <h3 className="text-large mb-6">Select Demo Scenario</h3>
         <select
           value={selectedScenario}
           onChange={(e) => setSelectedScenario(e.target.value)}
-          className="w-full p-3 border rounded"
+          className="input-field"
         >
           <option value="">Choose a scenario...</option>
           <option value="hr-approval">HR Approval Delays</option>
@@ -54,9 +54,9 @@ const Input: React.FC = () => {
           <option value="supply-chain">Supply Chain Delays</option>
         </select>
       </div>
-       {/* Settings Section */}
-       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-         <h3 className="text-lg font-semibold mb-4">Analysis Settings</h3>
+      {/* Settings Section */}
+      <div className="card mb-8">
+        <h3 className="text-large mb-6">Analysis Settings</h3>
          <div className="space-y-4">
            <div>
              <label className="block text-sm font-medium mb-2">Sensitivity Threshold: {threshold}</label>
@@ -105,12 +105,12 @@ const Input: React.FC = () => {
            </div>
          </div>
        </div>
-       <div className="mt-6">
-         <button
-           onClick={handleSubmit}
-           disabled={mutation.isPending}
-           className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 disabled:opacity-50 transition duration-200 flex items-center space-x-2"
-         >
+      <div className="mt-8">
+        <button
+          onClick={handleSubmit}
+          disabled={mutation.isPending}
+          className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-3"
+        >
            {mutation.isPending ? (
              <>
                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>

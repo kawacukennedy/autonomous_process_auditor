@@ -79,16 +79,16 @@ const Dashboard: React.FC = () => {
 
       {/* Live Audit Status Card */}
       {liveAuditRunning && (
-        <div className="mb-6 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4 animate-pulse">
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-blue-500 rounded-full animate-ping"></div>
-            <span className="text-blue-800 dark:text-blue-200 font-medium">Live Audit in Progress</span>
+        <div className="mb-8 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 border border-blue-200 dark:border-blue-700 rounded-xl p-6 animate-pulse shadow-lg">
+          <div className="flex items-center space-x-3">
+            <div className="w-4 h-4 bg-blue-500 rounded-full animate-ping shadow-sm"></div>
+            <span className="text-blue-800 dark:text-blue-200 text-lg font-semibold">Live Audit in Progress</span>
           </div>
         </div>
       )}
 
       {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-10">
         <KPICard title="Open Issues" value={openIssues} change="Active audits" icon="⚠️" />
         <KPICard title="Completed Audits" value={completedJobs} change="This week" icon="✅" />
         <KPICard title="Avg Processing Time" value={avgProcessingTime} change="-12% faster" icon="⏱️" />
@@ -98,9 +98,9 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Audit Feed and Activity Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
         <AuditFeed />
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+        <div className="card">
           <h3 className="text-lg font-semibold mb-4">System Status</h3>
           <div className="space-y-3">
             <div className="flex justify-between">
@@ -124,18 +124,18 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex space-x-4">
+      <div className="flex flex-wrap gap-6">
         <button
           onClick={handleLiveAudit}
           disabled={liveAuditRunning}
-          className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 disabled:opacity-50 transition duration-200 flex items-center space-x-2"
+          className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-3"
         >
           <span>{liveAuditRunning ? '🔄' : '🔍'}</span>
           <span>{liveAuditRunning ? 'Running Live Audit...' : 'Run Live Audit'}</span>
         </button>
         <button
           onClick={handleSimulateEvent}
-          className="bg-gray-600 text-white px-6 py-3 rounded hover:bg-gray-700 transition duration-200 flex items-center space-x-2"
+          className="btn-secondary flex items-center space-x-3"
         >
           <span>🎭</span>
           <span>Simulate Event</span>

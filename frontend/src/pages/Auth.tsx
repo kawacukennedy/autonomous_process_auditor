@@ -13,7 +13,7 @@ const Auth: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md border">
+      <div className="card w-full max-w-md border-0">
         <h1 className="text-2xl font-bold mb-6 text-center">Login to APA</h1>
         {/* Email Field */}
         <div className="mb-4">
@@ -22,7 +22,7 @@ const Auth: React.FC = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border rounded"
+            className="input-field"
             placeholder="Enter your email"
           />
         </div>
@@ -33,7 +33,7 @@ const Auth: React.FC = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 border rounded"
+            className="input-field"
             placeholder="Enter your password"
           />
         </div>
@@ -65,7 +65,7 @@ const Auth: React.FC = () => {
         </div>
         <button
           onClick={handleLogin}
-          className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition duration-200"
+          className="btn-primary w-full"
         >
           🔐 Login
         </button>

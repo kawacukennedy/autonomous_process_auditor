@@ -62,7 +62,7 @@ const ProcessConfig: React.FC = () => {
   return (
     <div className="p-8 bg-gray-50 dark:bg-gray-900">
       <h1 className="text-2xl font-bold mb-6">Process Configuration</h1>
-      <div className="mb-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+      <div className="mb-8 card">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Create New Monitor</h3>
           <button
@@ -159,13 +159,13 @@ const ProcessConfig: React.FC = () => {
         )}
       </div>
        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold mb-4">Monitored Workflows</h3>
+        <h3 className="text-large mb-6">Monitored Workflows</h3>
         <ul className="space-y-4">
           {connectors?.map((connector: Connector) => (
-            <li key={connector._id} className="flex justify-between items-center p-4 border rounded">
+            <li key={connector._id} className="flex justify-between items-center p-6 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
               <div>
-                <p className="font-medium">{connector.type}</p>
-                <p className="text-sm text-gray-500">Last check: {connector.lastHealthCheck ? new Date(connector.lastHealthCheck).toLocaleDateString() : 'Never'}</p>
+                <p className="font-semibold text-gray-900 dark:text-white mb-1">{connector.type}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Last check: {connector.lastHealthCheck ? new Date(connector.lastHealthCheck).toLocaleDateString() : 'Never'}</p>
               </div>
               <div className="flex items-center space-x-4">
                 <span className={`px-2 py-1 rounded text-xs ${

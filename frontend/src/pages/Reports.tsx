@@ -40,8 +40,8 @@ const Reports: React.FC = () => {
     <div className="p-8 bg-gray-50 dark:bg-gray-900">
       <h1 className="text-2xl font-bold mb-6">Reports</h1>
       {/* Pre-built Reports Section */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-6">
-        <h3 className="text-lg font-semibold mb-4">Pre-built Reports</h3>
+      <div className="card mb-8">
+        <h3 className="text-large mb-6">Pre-built Reports</h3>
         {/* Report List */}
         <ul className="space-y-4">
           {reports.map(report => (
@@ -76,8 +76,8 @@ const Reports: React.FC = () => {
         </ul>
       </div>
       {/* Schedule Export Section */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold mb-4">Schedule Export</h3>
+      <div className="card">
+        <h3 className="text-large mb-6">Schedule Export</h3>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">Frequency</label>

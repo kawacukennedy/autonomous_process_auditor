@@ -48,33 +48,33 @@ const AuditFeed: React.FC = () => {
   const events = filter === 'all' ? allEvents : allEvents.filter(e => e.severity === filter);
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md m-2">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold">Live Audit Feed</h3>
+    <div className="card">
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-large">Live Audit Feed</h3>
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value as 'all' | 'low' | 'medium' | 'high')}
-          className="border rounded px-2 py-1 text-sm"
+          className="input-field text-sm max-w-xs"
         >
-          <option value="all">All</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
+          <option value="all">All Severities</option>
+          <option value="high">High Priority</option>
+          <option value="medium">Medium Priority</option>
+          <option value="low">Low Priority</option>
         </select>
       </div>
-      <ul className="space-y-2">
+      <ul className="space-y-4">
         {events.map(event => (
-          <li key={event.id} className="flex justify-between items-center p-2 border-b">
-            <div>
-              <p className="font-medium">{event.message}</p>
-              <p className="text-sm text-gray-500">{event.timestamp}</p>
+          <li key={event.id} className="flex justify-between items-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+            <div className="flex-1">
+              <p className="font-semibold text-gray-900 dark:text-white mb-1">{event.message}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{event.timestamp}</p>
             </div>
-            <span className={`px-2 py-1 rounded text-xs ${
-              event.severity === 'high' ? 'bg-red-100 text-red-800' :
-              event.severity === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-              'bg-green-100 text-green-800'
+            <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+              event.severity === 'high' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
+              event.severity === 'medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
+              'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
             }`}>
-              {event.severity}
+              {event.severity.toUpperCase()}
             </span>
           </li>
         ))}
