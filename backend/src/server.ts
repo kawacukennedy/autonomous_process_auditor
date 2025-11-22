@@ -30,6 +30,9 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/apa')
 fastify.register(cors);
 fastify.register(jwt, { secret: process.env.JWT_SECRET || 'secret' });
 
+// Register error handler
+fastify.register(errorHandler);
+
 // Register routes
 fastify.register(authRoutes);
 fastify.register(connectorRoutes);
