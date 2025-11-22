@@ -1,3 +1,4 @@
+// KPICard component for displaying key performance indicators
 import React from 'react';
 
 interface KPICardProps {
