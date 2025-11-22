@@ -27,6 +27,7 @@ const ProcessConfig: React.FC = () => {
         </button>
       </div>
       <div className="bg-white p-6 rounded-lg shadow-md">
+        {/* Monitored Workflows Section */}
         <h3 className="text-lg font-semibold mb-4">Monitored Workflows</h3>
         <ul className="space-y-4">
           {connectors.map(connector => (
