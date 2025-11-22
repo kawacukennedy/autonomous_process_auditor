@@ -13,6 +13,7 @@ const Dashboard: React.FC = () => {
         <KPICard title="Avg Approval Delay" value="24h" change="-5h improvement" icon="⏱️" />
         <KPICard title="Monthly Cost Savings" value="$50k" change="+10% increase" icon="💰" />
       </div>
+      {/* Audit Feed and Activity Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <AuditFeed />
         <div className="bg-white p-6 rounded-lg shadow-md">
