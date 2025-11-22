@@ -51,7 +51,7 @@ const Input: React.FC = () => {
       <div className="mt-6">
         <button
           onClick={handleSubmit}
-          className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700"
+          className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-200"
         >
           Analyze & Recommend
         </button>
