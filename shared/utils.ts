@@ -11,3 +11,11 @@ export function capitalize(str: string): string {
 export function generateId(): string {
   return Math.random().toString(36).substr(2, 9);
 }
+
+export function debounce<T extends (...args: any[]) => any>(func: T, wait: number): T {
+  let timeout: NodeJS.Timeout;
+  return ((...args: any[]) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  }) as T;
+}
