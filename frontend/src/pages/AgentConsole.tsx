@@ -1,3 +1,4 @@
+// AgentConsole page for viewing agent traces
 import React from 'react';
 
 interface TraceStep {
