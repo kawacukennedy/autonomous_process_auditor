@@ -1,5 +1,6 @@
 // Auth page for user login
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Auth: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -70,9 +71,9 @@ const Auth: React.FC = () => {
           🔐 Login
         </button>
         <div className="mt-4 text-center">
-          <button className="text-blue-600 hover:underline">
+          <Link to="/forgot-password" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200">
             Forgot Password?
-          </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ import Input from './pages/Input';
 import Findings from './pages/Findings';
 import AgentConsole from './pages/AgentConsole';
 import Auth from './pages/Auth';
+import ForgotPassword from './pages/ForgotPassword';
 import Reports from './pages/Reports'; // Reports page
 
 const queryClient = new QueryClient();
@@ -53,9 +54,10 @@ function App() {
                 <Route path="/processes" element={<ProcessConfig />} />
                 <Route path="/input" element={<Input />} />
                 <Route path="/findings/:id" element={<Findings />} />
-                <Route path="/agents/:agentId" element={<AgentConsole />} />
-                <Route path="/login" element={<Auth />} />
-                <Route path="/reports" element={<Reports />} />
+                 <Route path="/agents/:agentId" element={<AgentConsole />} />
+                 <Route path="/login" element={<Auth />} />
+                 <Route path="/forgot-password" element={<ForgotPassword />} />
+                 <Route path="/reports" element={<Reports />} />
               </Routes>
             </main>
             <Footer />
