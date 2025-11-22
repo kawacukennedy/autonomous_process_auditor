@@ -1,0 +1,213 @@
+{
+  "project_title": "Autonomous Process Auditor (APA)",
+  "project_tagline": "Continuously audit, detect, and autonomously remediate workflow inefficiency, compliance drift, and bottlenecks across enterprise systems using IBM watsonx Orchestrate.",
+  "hackathon_theme_alignment": "Directly uses IBM watsonx Orchestrate to build multi-agent automation that transforms how teams and businesses get work done by automating monitoring, decisions, and cross-app remediation.",
+  "target_user": "Enterprise Operations Leaders (Ops, Process Excellence, IT/Automation, HR and Finance managers) at mid-to-large organizations who need continuous, low-effort workflow assurance and optimization.",
+  "system_architecture": {
+    "overview": "APA is a multi-agent, event-driven system centered on IBM watsonx Orchestrate. Agents ingest workflow events and logs from connected systems, analyze them using foundation models (watsonx.ai Granite models where needed), identify inefficiencies or rule violations, propose fixes, and autonomously execute or schedule remediation actions. A lightweight backend exposes REST APIs, persists audit data and configurations, and serves the frontend dashboard. Cloudant/NoSQL stores event logs and audit traces. The entire orchestration and user-facing action execution surface uses Orchestrate for no/low-code agents and skill integrations, while the backend provides adapters, webhooks, and governance controls.",
+    "components": [
+      {
+        "name": "Frontend Interface",
+        "technology": "React (TypeScript) + Tailwind CSS (or Chakra UI) + Vite",
+        "purpose": "Dashboard and interactive UI for configuration, live monitoring, audit/insights visualization, manual approvals, and demo flows. Provides quick-run demo controls and formatted executive reports."
+      },
+      {
+        "name": "Backend API/Server",
+        "technology": "Node.js (Fastify or Express) with TypeScript (or Python FastAPI as alternate)",
+        "purpose": "Handles authentication (JWT/OAuth), routes webhooks from external systems, persists events and job metadata, orchestrates calls to IBM watsonx.ai programmatic endpoints (if used), and acts as a thin command/control layer for Orchestrate where needed."
+      },
+      {
+        "name": "Orchestrate (Core)",
+        "technology": "IBM watsonx Orchestrate (SaaS instance provided by hackathon)",
+        "purpose": "Build and run multi-agent workflows, host digital skills, perform tool calls (email, calendar, ticketing), run custom skills, coordinate Auditor / Recommender / Executor agents, and provide the primary UI for agent traces."
+      },
+      {
+        "name": "AI/ML/Specialized Service",
+        "technology": "IBM watsonx.ai Granite family (Prompt Lab, API), optional LangChain/LangGraph adapters for complex tool calling",
+        "purpose": "Analyze textual logs and events, cluster patterns to detect bottlenecks, generate remediation plans, craft human-readable executive summaries and suggested workflow edits, and perform classification and anomaly detection."
+      },
+      {
+        "name": "Event Ingest Adapters",
+        "technology": "Small connector services (Node.js) + webhook endpoints",
+        "purpose": "Collect workflow events (simulated or real) from sources such as HR systems, ticketing systems, Google Sheets/Notion, Slack, or a demo event generator. Normalize and forward events to the backend/Orchestrate."
+      },
+      {
+        "name": "Database/Storage",
+        "technology": "Cloudant (recommended from hackathon optional services) or MongoDB Atlas (alternate), and S3-compatible object store for reports",
+        "purpose": "Store raw event logs, audit findings, job state, configuration, agents' decision traces, and exported reports."
+      },
+      {
+        "name": "Message Queue / Buffer",
+        "technology": "Lightweight Redis stream or in-process queue (BullMQ) for demo; optional Kafka for production",
+        "purpose": "Buffer events, queue jobs for model analysis and execution, rate-limit calls to external APIs and watsonx.ai to avoid RU exhaustion."
+      },
+      {
+        "name": "Observability & Telemetry",
+        "technology": "Simple OpenTelemetry traces (console + logs) and Langfuse integration example (per guide) for agent observability",
+        "purpose": "Capture agent decisions, execution traces, and metrics for debugging and demo dashboards."
+      },
+      {
+        "name": "Demo Data & Guide PDF",
+        "technology": "Local demo dataset files and uploaded hackathon guide",
+        "purpose": "Contain sample workflow event logs, simulated policies, and the official hackathon guide to demonstrate compliance with rules. (Hackathon guide path: /mnt/data/Lablab_wxo-agentic-ai-hackathon-guide-nov-2025.pdf)"
+      }
+    ],
+    "data_flow_example": "User configures a monitored workflow in the Frontend -> Frontend calls Backend API to register connector -> Event happens in external system (e.g., approval delay in HR system) -> Event Ingest Adapter sends webhook to Backend -> Backend normalizes and queues the event -> Queue worker forwards event to Orchestrate Auditor Agent (or calls watsonx.ai for enrichment) -> Auditor Agent analyzes event and writes findings to Cloudant and sends recommended actions to Recommender Agent -> Recommender Agent uses watsonx.ai to draft remediation and creates a proposed change task -> Proposed change is sent to Executor Agent which either auto-applies the change (via connected app credentials through Orchestrate skill) or sends request-for-approval to the Frontend (or Slack) -> Frontend receives real-time update and displays result and an executive summary; all traces stored in DB for audit and reporting."
+  },
+  "frontend_specs": {
+    "technology": "React (TypeScript) with Tailwind CSS for rapid polished UI, Vite for dev, and React Query / SWR for data fetching. Use charting via Recharts or Chart.js (no custom color palettes unless requested).",
+    "ui_style_notes": "Clean, enterprise-futuristic: neutral background, accent IBM-esque blue, ample whitespace, large readable fonts, dark-mode support, high-contrast accessible components, progressive disclosure for complex data. Focus on clarity for audit traces and remediation steps. Animations kept minimal and purposeful; top-level 'live audit' card with pulsing indicator for real-time events.",
+    "pages": [
+      {
+        "page_name": "Home/Dashboard",
+        "url_path": "/",
+        "key_elements": [
+          "Live audit feed (stream of recent events and actions) with filters (source, severity).",
+          "Summary KPIs: open issues, average approval delay, estimated monthly cost of delays.",
+          "Main call-to-action: 'Run Live Audit' or 'Simulate Event' (for demo).",
+          "Quick onboarding/status message showing Orchestrate connection and agent health.",
+          "Recent activity list with quick-expand traces."
+        ]
+      },
+      {
+        "page_name": "Process Configuration",
+        "url_path": "/processes",
+        "key_elements": [
+          "List of monitored workflows and connectors.",
+          "Create new monitor wizard (select data source, mapping, thresholds).",
+          "Parameter toggles: sensitivity, auto-remediate (on/off), notify-channels.",
+          "Connector health indicators and credentials UI (only token placeholders in demo)."
+        ]
+      },
+      {
+        "page_name": "Core Feature Input",
+        "url_path": "/input",
+        "key_elements": [
+          "Large input area for uploading sample logs or selecting a demo scenario.",
+          "Settings/parameter toggles: threshold values, policy set selection, scope of remediation.",
+          "Submit button labeled 'Analyze & Recommend' with progress indicator."
+        ]
+      },
+      {
+        "page_name": "Findings & Recommendations",
+        "url_path": "/findings/:id",
+        "key_elements": [
+          "Visualization of the AI output: timelines, swimlanes showing stuck approvals, heatmap of delay frequency.",
+          "Generated remediation plan (step-by-step) with 'Apply Now' (Executor) and 'Request Approval' options.",
+          "Share/Download button for exporting PDF/CSV executive report.",
+          "Feedback mechanism (Accept/Reject recommendation, star rating, comment) to capture human judgement."
+        ]
+      },
+      {
+        "page_name": "Agent Console / Orchestrate Trace",
+        "url_path": "/agents/:agentId",
+        "key_elements": [
+          "Detailed agent decision trace pulled from Orchestrate and DB: inputs, model outputs, tool calls, timestamps.",
+          "Replay button to replay the event sequence in demo mode.",
+          "Toggle to show raw logs vs. summarized explanation for executives."
+        ]
+      },
+      {
+        "page_name": "Auth / Login",
+        "url_path": "/login",
+        "key_elements": [
+          "OAuth/JWT login, 'Demo mode' quick access, and account selection (team vs. demo).",
+          "Secure token entry (masked) for connector credentials (demo-only placeholders)."
+        ]
+      },
+      {
+        "page_name": "Reports",
+        "url_path": "/reports",
+        "key_elements": [
+          "Pre-built executive report templates (Weekly summary, Risk exposures, Savings forecast).",
+          "Schedule export (email delivery) and on-demand export."
+        ]
+      }
+    ]
+  },
+  "backend_specs": {
+    "api_framework": "Node.js (TypeScript) with Fastify (preferred) or Express as fallback; containerized with Docker for local demo.",
+    "key_endpoints": [
+      {
+        "endpoint": "/api/v1/auth/login",
+        "method": "POST",
+        "logic": "Authenticates user using JWT (or OAuth) for demo. Returns user data and role. In hackathon demo, support 'demo' usernames that preseed tenant data."
+      },
+      {
+        "endpoint": "/api/v1/connectors/register",
+        "method": "POST",
+        "logic": "Register a source connector (type, webhook URL, mapping). Stores connector config and issues a GUID used by external event emitters."
+      },
+      {
+        "endpoint": "/api/v1/events",
+        "method": "POST",
+        "logic": "Webhook receiver for normalized events. Validates signature (or demo token), pushes event into the processing queue, returns job ID."
+      },
+      {
+        "endpoint": "/api/v1/process",
+        "method": "POST",
+        "logic": "Receives user-initiated analysis requests (upload or scenario selection), sanitizes input, enqueues job for Orchestrate/Auditor agent, and returns job ID with estimated ETA."
+      },
+      {
+        "endpoint": "/api/v1/jobs/:id/status",
+        "method": "GET",
+        "logic": "Returns job status and incremental progress; used for polling or websocket updates."
+      },
+      {
+        "endpoint": "/api/v1/results/:id",
+        "method": "GET",
+        "logic": "Fetches final processed result from database by ID and returns formatted analysis, recommended actions and agent traces."
+      },
+      {
+        "endpoint": "/api/v1/actions/:id/execute",
+        "method": "POST",
+        "logic": "Called when Executor Agent or user elects to apply a remediation. Validates policy (safety guardrails), triggers Orchestrate skill to perform the action, and logs outcome."
+      },
+      {
+        "endpoint": "/api/v1/feedback",
+        "method": "POST",
+        "logic": "Accepts user feedback (accept/reject, rating, comments) and stores it for model/agent evaluation and iterative improvement."
+      }
+    ],
+    "database_schema_required_tables": [
+      "Users (id, email, role, password_hash_or_oauth_id, created_at, last_login)",
+      "Teams (id, name, billing_placeholder, created_at)",
+      "Connectors (id, team_id, type, config, last_health_check, created_at)",
+      "Events (id, connector_id, raw_payload, normalized_payload, received_at, processed_at, job_id)",
+      "Jobs (id, team_id, user_id, status:pending|running|failed|complete, input_ref, result_ref, created_at, updated_at)",
+      "Findings (id, job_id, severity, summary, details_json, suggested_actions, created_at)",
+      "Actions (id, finding_id, action_type, target_system, status, executed_by, executed_at, result_json)",
+      "AgentTraces (id, agent_name, job_id, step_index, inputs, outputs, tool_calls, timestamp)",
+      "Reports (id, team_id, job_id, pdf_path, generated_at)",
+      "Feedback (id, user_id, finding_id, rating, comment, created_at)"
+    ]
+  },
+  "key_risks_and_mitigation": [
+    {
+      "risk": "AI model is too slow for the demo or exceeds watsonx.ai credits.",
+      "mitigation": "1) Pre-generate model outputs for the demo scenarios and cache them. 2) Implement a lightweight mock mode that returns pre-canned responses with a 2-5s simulated delay to preserve UX. 3) Use smaller Granite models or structured prompt techniques to reduce RU usage."
+    },
+    {
+      "risk": "Unexpected issues with external API rate limits and RU quotas.",
+      "mitigation": "Implement rate-limiting, exponential backoff retries, job queuing with visibility, and prioritize critical demo flows. Use local in-memory queues for demo and a Redis/Bull queue for resilience. Expose quota monitoring on the dashboard."
+    },
+    {
+      "risk": "Credentials or IBM Cloud secrets accidentally exposed in demo repo.",
+      "mitigation": "Never store real credentials in the public repo. Use environment variables and .env.example placeholders. Add a pre-submit script that scans for API keys. Provide a demonstration token mechanism instead of storing real cloud keys. Include explicit guide referencing the hackathon PDF for credentials best practices."
+    },
+    {
+      "risk": "Agent executes an unsafe change on a live system during demo.",
+      "mitigation": "Default to 'propose-only' mode for execution; require manual approval toggle for production/execution. Implement policy guardrails within Orchestrate skills to block dangerous actions and require two-step approvals. In demo, demonstrate 'auto-apply off' and only auto-apply to simulated systems."
+    },
+    {
+      "risk": "Data privacy / PII usage from sample datasets.",
+      "mitigation": "Use synthetic or anonymized data only. The hackathon guide requires no PII; include a README note confirming synthetic datasets and the path to the hackathon guide (/mnt/data/Lablab_wxo-agentic-ai-hackathon-guide-nov-2025.pdf)."
+    }
+  ],
+  "winning_criteria_checklist": [
+    "Novelty: APA shifts the paradigm from ad-hoc automation to continuous autonomous governance — instead of only automating tasks, it audits and remediates workflows end-to-end. This original angle (autonomous auditing + automated remediation orchestration) differentiates it from typical Assistants or single-use automations.",
+    "Technical Complexity: The most complex component is the multi-agent orchestration combining Orchestrate skills, watsonx.ai model inference for pattern detection and remediation plan generation, and safe executor flows (policy guardrails + cross-app tool calls). Demonstrating end-to-end agent collaboration, decision tracing, and safe execution will impress judges technically.",
+    "Polish/UX: The best UX feature is the 'Findings & Recommendations' experience — clear timelines, swimlane visualizations of process bottlenecks, a single-click 'propose vs apply' control, and exportable executive reports. Combined with realtime live feed and agent trace replay, this provides a polished demo-ready experience.",
+    "Impact: APA can save organizations time and money by reducing approval delays, cutting repetitive manual work, and catching compliance drift early. It turns monitoring into action — a measurable ROI pitch (minutes saved per approval * approvals/month * salary cost) will strongly persuade judges about business impact."
+  ]
+}
