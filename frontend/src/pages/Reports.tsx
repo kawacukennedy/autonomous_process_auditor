@@ -23,8 +23,10 @@ const Reports: React.FC = () => {
   return (
     <div className="p-6 bg-gray-50">
       <h1 className="text-2xl font-bold mb-6">Reports</h1>
+      {/* Pre-built Reports Section */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <h3 className="text-lg font-semibold mb-4">Pre-built Reports</h3>
+        {/* Report List */}
         <ul className="space-y-4">
           {reports.map(report => (
             <li key={report.id} className="flex justify-between items-center p-4 border rounded">
@@ -48,6 +50,7 @@ const Reports: React.FC = () => {
           ))}
         </ul>
       </div>
+      {/* Schedule Export Section */}
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold mb-4">Schedule Export</h3>
         <div className="space-y-4">
