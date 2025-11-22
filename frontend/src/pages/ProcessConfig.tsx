@@ -29,6 +29,7 @@ const ProcessConfig: React.FC = () => {
       <div className="bg-white p-6 rounded-lg shadow-md">
         {/* Monitored Workflows Section */}
         <h3 className="text-lg font-semibold mb-4">Monitored Workflows</h3>
+        {/* Connector List */}
         <ul className="space-y-4">
           {connectors.map(connector => (
             <li key={connector.id} className="flex justify-between items-center p-4 border rounded">
