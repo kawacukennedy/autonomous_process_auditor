@@ -16,6 +16,7 @@ const Findings: React.FC = () => {
     { process: 'Approval', frequency: 10 },
     { process: 'Review', frequency: 7 },
     { process: 'Final Sign-off', frequency: 3 },
+    { process: 'Audit', frequency: 5 },
   ];
 
   return (
