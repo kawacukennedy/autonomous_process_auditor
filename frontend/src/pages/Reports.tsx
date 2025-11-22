@@ -28,19 +28,19 @@ const Reports: React.FC = () => {
     generateMutation.mutate(type);
   };
 
-  const downloadReport = (type: string) => {
+  const downloadReport = (type: string, format: 'pdf' | 'csv' = 'pdf') => {
     // Mock download
     const link = document.createElement('a');
-    link.href = `/mock-reports/${type}.pdf`; // In real, use API
-    link.download = `${type}.pdf`;
+    link.href = `/mock-reports/${type}.${format}`; // In real, use API
+    link.download = `${type}.${format}`;
     link.click();
   };
 
   return (
-    <div className="p-8 bg-gray-50">
+    <div className="p-8 bg-gray-50 dark:bg-gray-900">
       <h1 className="text-2xl font-bold mb-6">Reports</h1>
       {/* Pre-built Reports Section */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-6">
         <h3 className="text-lg font-semibold mb-4">Pre-built Reports</h3>
         {/* Report List */}
         <ul className="space-y-4">
@@ -51,20 +51,26 @@ const Reports: React.FC = () => {
                 <p className="text-sm text-gray-600">{report.description}</p>
                 <p className="text-xs text-gray-500">Last generated: {report.lastGenerated}</p>
               </div>
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => generateReport(report.id)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
-                >
-                  ⚙️ Generate
-                </button>
-                <button
-                  onClick={() => downloadReport(report.id)}
-                  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200"
-                >
-                  📥 Download
-                </button>
-              </div>
+               <div className="flex space-x-2">
+                 <button
+                   onClick={() => generateReport(report.id)}
+                   className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
+                 >
+                   ⚙️ Generate
+                 </button>
+                 <button
+                   onClick={() => downloadReport(report.id, 'pdf')}
+                   className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200"
+                 >
+                   📄 PDF
+                 </button>
+                 <button
+                   onClick={() => downloadReport(report.id, 'csv')}
+                   className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200"
+                 >
+                   📊 CSV
+                 </button>
+               </div>
             </li>
           ))}
         </ul>

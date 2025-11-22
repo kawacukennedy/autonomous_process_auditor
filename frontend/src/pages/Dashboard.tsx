@@ -37,6 +37,8 @@ const Dashboard: React.FC = () => {
   const openIssues = jobs?.filter((job: any) => job.status === 'running').length || 0;
   const completedJobs = jobs?.filter((job: any) => job.status === 'complete').length || 0;
   const avgProcessingTime = jobs?.length > 0 ? '2.5 min' : 'N/A'; // Mock calculation
+  const avgApprovalDelay = jobs?.length > 0 ? '4.2 hours' : 'N/A'; // Mock
+  const monthlyCostSavings = jobs?.length > 0 ? '$12,500' : '$0'; // Mock
 
   const handleLiveAudit = async () => {
     setLiveAuditRunning(true);
@@ -86,10 +88,12 @@ const Dashboard: React.FC = () => {
       )}
 
       {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-6">
         <KPICard title="Open Issues" value={openIssues} change="Active audits" icon="⚠️" />
         <KPICard title="Completed Audits" value={completedJobs} change="This week" icon="✅" />
         <KPICard title="Avg Processing Time" value={avgProcessingTime} change="-12% faster" icon="⏱️" />
+        <KPICard title="Avg Approval Delay" value={avgApprovalDelay} change="-8% improvement" icon="📉" />
+        <KPICard title="Monthly Cost Savings" value={monthlyCostSavings} change="From optimizations" icon="💰" />
         <KPICard title="AI Confidence" value="94%" change="Model accuracy" icon="🤖" />
       </div>
 

@@ -143,27 +143,40 @@ const Findings: React.FC = () => {
           )) || <li>No actions available</li>}
         </ol>
       </div>
-      {/* Action Buttons */}
-      <div className="flex space-x-4 mb-6">
-        {results?.actions?.map((action: any) => (
-          <button
-            key={action._id}
-            onClick={() => executeAction(action._id)}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200"
-          >
-            ✅ Execute: {action.actionType}
-          </button>
-        ))}
-        <button className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition duration-200">
-          📋 Request Manual Approval
-        </button>
-        <button
-          onClick={downloadReport}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
-        >
-          📥 Download Executive Report
-        </button>
-      </div>
+       {/* Action Control */}
+       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-6">
+         <h3 className="text-lg font-semibold mb-4">Remediation Control</h3>
+         <div className="flex items-center space-x-4 mb-4">
+           <label className="flex items-center">
+             <input type="radio" name="actionMode" value="propose" defaultChecked className="mr-2" />
+             Propose Only
+           </label>
+           <label className="flex items-center">
+             <input type="radio" name="actionMode" value="apply" className="mr-2" />
+             Apply Now
+           </label>
+         </div>
+         <div className="flex space-x-4">
+           {results?.actions?.map((action: any) => (
+             <button
+               key={action._id}
+               onClick={() => executeAction(action._id)}
+               className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200"
+             >
+               ✅ Execute: {action.actionType}
+             </button>
+           ))}
+           <button className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition duration-200">
+             📋 Request Manual Approval
+           </button>
+           <button
+             onClick={downloadReport}
+             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
+           >
+             📥 Download Executive Report
+           </button>
+         </div>
+       </div>
       {/* Feedback Section */}
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold mb-4">Provide Feedback</h3>
