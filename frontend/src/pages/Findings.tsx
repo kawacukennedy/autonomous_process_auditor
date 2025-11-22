@@ -105,12 +105,14 @@ const Findings: React.FC = () => {
   ];
 
   return (
-    <div className="p-8 bg-gray-50 dark:bg-gray-900 enterprise-bg">
+    <div className="p-8 bg-gray-50 dark:bg-gray-900 enterprise-bg animate-slide-up">
       <h1 className="text-2xl font-bold mb-6">Findings & Recommendations</h1>
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+        <div className="animate-stagger">
+          <div className="card">
         {/* Timeline Chart */}
-        <div className="card">
+        <div className="card animate-stagger">
           <h3 className="text-large mb-6">Approval Delay Timeline</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={timelineData}>
@@ -123,7 +125,7 @@ const Findings: React.FC = () => {
           </ResponsiveContainer>
         </div>
         {/* Heatmap Chart */}
-        <div className="card">
+        <div className="card animate-stagger">
           <h3 className="text-large mb-6">Delay Frequency by Process</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={heatmapData}>
@@ -136,7 +138,7 @@ const Findings: React.FC = () => {
           </ResponsiveContainer>
         </div>
         {/* Swimlane Chart */}
-        <div className="card">
+        <div className="card animate-stagger">
           <h3 className="text-large mb-6">Process Swimlane (Stuck Approvals)</h3>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={swimlaneData} layout="horizontal">

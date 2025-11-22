@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-50 dark:bg-gray-900 enterprise-bg">
+    <div className="p-8 bg-gray-50 dark:bg-gray-900 enterprise-bg animate-slide-up">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Autonomous Process Auditor Dashboard</h1>
         <div className="flex items-center space-x-2">
@@ -89,12 +89,24 @@ const Dashboard: React.FC = () => {
 
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-10">
-        <KPICard title="Open Issues" value={openIssues} change="Active audits" icon="⚠️" />
-        <KPICard title="Completed Audits" value={completedJobs} change="This week" icon="✅" />
-        <KPICard title="Avg Processing Time" value={avgProcessingTime} change="-12% faster" icon="⏱️" />
-        <KPICard title="Avg Approval Delay" value={avgApprovalDelay} change="-8% improvement" icon="📉" />
-        <KPICard title="Monthly Cost Savings" value={monthlyCostSavings} change="From optimizations" icon="💰" />
-        <KPICard title="AI Confidence" value="94%" change="Model accuracy" icon="🤖" />
+        <div className="animate-stagger">
+          <KPICard title="Open Issues" value={openIssues} change="Active audits" icon="⚠️" />
+        </div>
+        <div className="animate-stagger">
+          <KPICard title="Completed Audits" value={completedJobs} change="This week" icon="✅" />
+        </div>
+        <div className="animate-stagger">
+          <KPICard title="Avg Processing Time" value={avgProcessingTime} change="-12% faster" icon="⏱️" />
+        </div>
+        <div className="animate-stagger">
+          <KPICard title="Avg Approval Delay" value={avgApprovalDelay} change="-8% improvement" icon="📉" />
+        </div>
+        <div className="animate-stagger">
+          <KPICard title="Monthly Cost Savings" value={monthlyCostSavings} change="From optimizations" icon="💰" />
+        </div>
+        <div className="animate-stagger">
+          <KPICard title="AI Confidence" value="94%" change="Model accuracy" icon="🤖" />
+        </div>
       </div>
 
       {/* Audit Feed and Activity Grid */}
