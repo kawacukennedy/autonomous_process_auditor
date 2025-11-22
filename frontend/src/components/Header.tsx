@@ -1,10 +1,20 @@
 // Header component with navigation
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
   return (
-    <nav className="bg-blue-600 p-4 mb-4">
+    <nav className="bg-blue-600 dark:bg-blue-800 p-4 mb-4">
       <div className="container mx-auto flex justify-between">
         <Link to="/" className="text-white text-xl font-bold">APA</Link>
         <ul className="flex space-x-4">
@@ -15,6 +25,14 @@ const Header: React.FC = () => {
           <li><Link to="/agents" className="text-white hover:text-blue-200">Agents</Link></li>
           <li><Link to="/reports" className="text-white hover:text-blue-200">Reports</Link></li>
           <li><Link to="/login" className="text-white hover:text-blue-200">Login</Link></li>
+          <li>
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="text-white hover:text-blue-200"
+            >
+              {darkMode ? '☀️' : '🌙'}
+            </button>
+          </li>
         </ul>
       </div>
     </nav>

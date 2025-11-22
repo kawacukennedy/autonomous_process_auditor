@@ -1,8 +1,22 @@
 // Findings page with visualizations and remediation plans
 import React from 'react';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { apiClient } from '../api/client';
 
 const Findings: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+
+  const { data: results, isLoading } = useQuery({
+    queryKey: ['results', id],
+    queryFn: () => apiClient.get(`/api/v1/results/${id}`),
+    enabled: !!id,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
+  // Mock charts for now, later generate from findings
   const timelineData = [
     { time: '09:00', delays: 2 },
     { time: '10:00', delays: 5 },
@@ -57,24 +71,47 @@ const Findings: React.FC = () => {
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <h3 className="text-lg font-semibold mb-4">Remediation Plan</h3>
         <ol className="list-decimal list-inside space-y-2">
-          <li>Implement automated approval routing for low-risk requests</li>
-          <li>Add escalation triggers for delays over 24 hours</li>
-          <li>Introduce parallel review processes for high-volume periods</li>
-          <li>Optimize workflow notifications to reduce manual checks</li>
-          <li>Integrate AI-powered decision support for complex cases</li>
+          {results?.actions?.map((action: any, index: number) => (
+            <li key={index}>{action.resultJson?.plan || 'Remediation action'}</li>
+          )) || <li>No actions available</li>}
         </ol>
       </div>
       {/* Action Buttons */}
-      <div className="flex space-x-4">
+      <div className="flex space-x-4 mb-6">
         <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200">
           ✅ Apply Now
         </button>
         <button className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition duration-200">
           📋 Request Approval
         </button>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">
+        <button
+          onClick={() => alert('Report downloaded (mock)')}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
+        >
           📥 Download Report
         </button>
+      </div>
+      {/* Feedback Section */}
+      <div className="bg-white p-6 rounded-lg shadow-md">
+        <h3 className="text-lg font-semibold mb-4">Provide Feedback</h3>
+        <form className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-2">Rating</label>
+            <select className="w-full p-3 border rounded">
+              <option>Excellent</option>
+              <option>Good</option>
+              <option>Neutral</option>
+              <option>Poor</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">Comments</label>
+            <textarea className="w-full h-20 p-3 border rounded" placeholder="Your feedback..."></textarea>
+          </div>
+          <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Submit Feedback
+          </button>
+        </form>
       </div>
     </div>
   );

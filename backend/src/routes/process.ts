@@ -1,5 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import Job from '../models/Job';
+import { auditQueue } from '../services/queueService';
 
 export default async function processRoutes(fastify: FastifyInstance) {
   fastify.post('/api/v1/process', async (request, reply) => {
@@ -10,12 +11,10 @@ export default async function processRoutes(fastify: FastifyInstance) {
       inputRef: input,
     });
     await job.save();
-    // Mock processing
-    setTimeout(async () => {
-      job.status = 'complete';
-      job.resultRef = 'mock-result-id';
-      await job.save();
-    }, 5000);
-    return { jobId: job._id, eta: 5 };
+
+    // Add to queue
+    await auditQueue.add('processAudit', { jobId: job._id });
+
+    return { jobId: job._id, eta: 10 }; // Estimated time with queue
   });
 }

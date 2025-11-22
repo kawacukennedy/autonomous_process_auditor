@@ -1,13 +1,24 @@
 // Input page for uploading logs and selecting scenarios
 import React, { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { apiClient } from '../api/client';
 
 const Input: React.FC = () => {
   const [inputText, setInputText] = useState('');
   const [selectedScenario, setSelectedScenario] = useState('');
+  const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: (data: { input: string }) => apiClient.post('/api/v1/process', data),
+    onSuccess: (data) => {
+      navigate(`/findings/${data.jobId}`);
+    },
+  });
 
   const handleSubmit = () => {
-    // Mock submit
-    alert('Analysis started!');
+    const input = inputText || `Scenario: ${selectedScenario}`;
+    mutation.mutate({ input });
   };
 
   return (

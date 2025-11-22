@@ -1,21 +1,28 @@
 // AuditFeed component for displaying live audit events
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { apiClient } from '../api/client';
 
-interface AuditEvent {
-  id: string;
-  type: string;
-  message: string;
-  timestamp: string;
-  severity: 'low' | 'medium' | 'high';
+interface Job {
+  _id: string;
+  status: string;
+  createdAt: string;
 }
 
 const AuditFeed: React.FC = () => {
-  const events: AuditEvent[] = [
-    { id: '1', type: 'approval_delay', message: 'Approval delayed in HR system', timestamp: '2025-11-22T10:00:00Z', severity: 'medium' },
-    { id: '2', type: 'compliance', message: 'Compliance check passed', timestamp: '2025-11-22T09:30:00Z', severity: 'low' },
-    { id: '3', type: 'bottleneck', message: 'Bottleneck detected in finance approval', timestamp: '2025-11-22T08:45:00Z', severity: 'high' },
-    { id: '4', type: 'optimization', message: 'Optimization suggestion generated', timestamp: '2025-11-22T08:00:00Z', severity: 'low' },
-  ];
+  const { data: jobs, isLoading } = useQuery({
+    queryKey: ['jobs'],
+    queryFn: () => apiClient.get('/api/v1/jobs'),
+    refetchInterval: 5000, // Poll every 5 seconds for real-time
+  });
+
+  const events = jobs?.slice(0, 10).map((job: Job) => ({
+    id: job._id,
+    type: 'job',
+    message: `Job ${job.status}: Audit processing`,
+    timestamp: job.createdAt,
+    severity: job.status === 'complete' ? 'low' : 'medium' as 'low' | 'medium' | 'high',
+  })) || [];
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-md m-2">

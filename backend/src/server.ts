@@ -17,6 +17,7 @@ import agentTraceRoutes from './routes/agentTraces';
 import reportRoutes from './routes/reports';
 import healthRoutes from './routes/health';
 import errorHandler from './middleware/errorHandler';
+import './workers/auditWorker';
 
 // Load environment variables
 dotenv.config();
