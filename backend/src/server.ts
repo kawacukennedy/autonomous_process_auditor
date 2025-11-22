@@ -17,8 +17,10 @@ import agentTraceRoutes from './routes/agentTraces';
 import reportRoutes from './routes/reports';
 import errorHandler from './middleware/errorHandler';
 
+// Load environment variables
 dotenv.config();
 
+// Create Fastify instance with logging
 const fastify = Fastify({ logger: true });
 
 // Connect to MongoDB
