@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-50 dark:bg-gray-900">
+    <div className="p-8 bg-gray-50 dark:bg-gray-900 enterprise-bg">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Autonomous Process Auditor Dashboard</h1>
         <div className="flex items-center space-x-2">

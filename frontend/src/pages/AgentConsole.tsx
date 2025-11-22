@@ -38,7 +38,7 @@ const AgentConsole: React.FC = () => {
   }, [replayIndex, isReplaying, traces.length]);
 
   return (
-    <div className="p-8 bg-gray-50 dark:bg-gray-900">
+    <div className="p-8 bg-gray-50 dark:bg-gray-900 enterprise-bg">
       <h1 className="text-2xl font-bold mb-6">Agent Console / Orchestrate Trace</h1>
       {/* Agent Trace Section */}
       <div className="card mb-8">

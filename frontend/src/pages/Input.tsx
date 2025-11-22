@@ -11,6 +11,7 @@ const Input: React.FC = () => {
   const [autoRemediate, setAutoRemediate] = useState(false);
   const [policySet, setPolicySet] = useState('default');
   const [scope, setScope] = useState('full');
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const navigate = useNavigate();
 
   const mutation = useMutation({
@@ -27,7 +28,7 @@ const Input: React.FC = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-50">
+    <div className="p-8 bg-gray-50 dark:bg-gray-900 enterprise-bg">
       <h1 className="text-2xl font-bold mb-6">Core Feature Input</h1>
       {/* Upload Logs Section */}
       <div className="card mb-8">
@@ -56,19 +57,63 @@ const Input: React.FC = () => {
       </div>
       {/* Settings Section */}
       <div className="card mb-8">
-        <h3 className="text-large mb-6">Analysis Settings</h3>
-         <div className="space-y-4">
-           <div>
-             <label className="block text-sm font-medium mb-2">Sensitivity Threshold: {threshold}</label>
-             <input
-               type="range"
-               min="1"
-               max="10"
-               value={threshold}
-               onChange={(e) => setThreshold(Number(e.target.value))}
-               className="w-full"
-             />
-           </div>
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-large">Analysis Settings</h3>
+          <button
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200"
+          >
+            {showAdvanced ? 'Hide Advanced' : 'Show Advanced'} ▼
+          </button>
+        </div>
+        <div className={`space-y-4 ${showAdvanced ? 'block' : 'hidden'} transition-all duration-300`}>
+          <div>
+            <label className="block text-sm font-medium mb-2">Sensitivity Threshold: {threshold}</label>
+            <input
+              type="range"
+              min="1"
+              max="10"
+              value={threshold}
+              onChange={(e) => setThreshold(Number(e.target.value))}
+              className="w-full"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">Policy Set</label>
+            <select
+              value={policySet}
+              onChange={(e) => setPolicySet(e.target.value)}
+              className="input-field"
+            >
+              <option value="default">Default Policies</option>
+              <option value="strict">Strict Compliance</option>
+              <option value="lenient">Lenient Monitoring</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">Remediation Scope</label>
+            <select
+              value={scope}
+              onChange={(e) => setScope(e.target.value)}
+              className="input-field"
+            >
+              <option value="full">Full Automation</option>
+              <option value="partial">Partial Automation</option>
+              <option value="manual">Manual Only</option>
+            </select>
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="auto-remediate"
+              checked={autoRemediate}
+              onChange={(e) => setAutoRemediate(e.target.checked)}
+              className="mr-2"
+            />
+            <label htmlFor="auto-remediate">Enable Auto-Remediation</label>
+          </div>
+        </div>
+      </div>
            <div>
              <label className="block text-sm font-medium mb-2">Policy Set</label>
              <select

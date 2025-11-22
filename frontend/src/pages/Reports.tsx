@@ -37,7 +37,7 @@ const Reports: React.FC = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-50 dark:bg-gray-900">
+    <div className="p-8 bg-gray-50 dark:bg-gray-900 enterprise-bg">
       <h1 className="text-2xl font-bold mb-6">Reports</h1>
       {/* Pre-built Reports Section */}
       <div className="card mb-8">

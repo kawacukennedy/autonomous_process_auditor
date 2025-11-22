@@ -5,6 +5,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { apiClient } from '../api/client';
 import jsPDF from 'jspdf';
+import LoadingSkeleton from '../components/LoadingSkeleton';
 
 const Findings: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -54,7 +55,21 @@ const Findings: React.FC = () => {
     doc.save(`apa-report-${id}.pdf`);
   };
 
-  if (isLoading) return <div className="p-8">Loading findings...</div>;
+  if (isLoading) return (
+    <div className="p-8 bg-gray-50 dark:bg-gray-900">
+      <LoadingSkeleton className="h-8 w-64 mb-8" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+        <div className="card">
+          <LoadingSkeleton className="h-6 w-48 mb-6" />
+          <LoadingSkeleton className="h-64 w-full" />
+        </div>
+        <div className="card">
+          <LoadingSkeleton className="h-6 w-48 mb-6" />
+          <LoadingSkeleton className="h-64 w-full" />
+        </div>
+      </div>
+    </div>
+  );
 
   // Generate charts from findings data
   const findings = results?.findings || [];
@@ -90,7 +105,7 @@ const Findings: React.FC = () => {
   ];
 
   return (
-    <div className="p-8 bg-gray-50 dark:bg-gray-900">
+    <div className="p-8 bg-gray-50 dark:bg-gray-900 enterprise-bg">
       <h1 className="text-2xl font-bold mb-6">Findings & Recommendations</h1>
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">

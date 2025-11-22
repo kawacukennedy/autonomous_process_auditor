@@ -60,7 +60,7 @@ const ProcessConfig: React.FC = () => {
   if (isLoading) return <div>Loading connectors...</div>;
 
   return (
-    <div className="p-8 bg-gray-50 dark:bg-gray-900">
+    <div className="p-8 bg-gray-50 dark:bg-gray-900 enterprise-bg">
       <h1 className="text-2xl font-bold mb-6">Process Configuration</h1>
       <div className="mb-8 card">
         <div className="flex justify-between items-center mb-4">

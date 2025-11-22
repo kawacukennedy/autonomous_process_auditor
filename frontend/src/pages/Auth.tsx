@@ -12,7 +12,7 @@ const Auth: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 enterprise-bg">
       <div className="card w-full max-w-md border-0">
         <h1 className="text-2xl font-bold mb-6 text-center">Login to APA</h1>
         {/* Email Field */}
