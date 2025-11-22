@@ -12,8 +12,16 @@ interface Job {
   createdAt: string;
 }
 
+interface Event {
+  id: string;
+  type: string;
+  message: string;
+  timestamp: string;
+  severity: 'low' | 'medium' | 'high';
+}
+
 const AuditFeed: React.FC = () => {
-  const { data: jobs, isLoading, refetch } = useQuery({
+  const { data: jobs, refetch } = useQuery({
     queryKey: ['jobs'],
     queryFn: () => apiClient.get('/api/v1/jobs'),
   });
@@ -28,7 +36,7 @@ const AuditFeed: React.FC = () => {
     };
   }, [refetch]);
 
-  const events = jobs?.slice(0, 10).map((job: Job) => ({
+  const events: Event[] = jobs?.slice(0, 10).map((job: Job) => ({
     id: job._id,
     type: 'job',
     message: `Job ${job.status}: Audit processing`,

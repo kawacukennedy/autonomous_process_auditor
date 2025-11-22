@@ -11,7 +11,7 @@ const Findings: React.FC = () => {
   const [rating, setRating] = useState('');
   const [comment, setComment] = useState('');
 
-  const { data: results, isLoading, error } = useQuery({
+  const { data: results, isLoading, error, refetch } = useQuery({
     queryKey: ['results', id],
     queryFn: () => apiClient.get(`/api/v1/results/${id}`),
     enabled: !!id,
@@ -24,15 +24,34 @@ const Findings: React.FC = () => {
     onSuccess: () => alert('Feedback submitted!'),
   });
 
+  const executeAction = async (actionId: string) => {
+    try {
+      await apiClient.put(`/api/v1/actions/${actionId}/execute`, { approved: true });
+      alert('Action executed successfully!');
+      // Refetch results
+      refetch();
+    } catch (error) {
+      alert('Action execution failed. Manual approval may be required.');
+    }
+  };
+
   const downloadReport = () => {
     const doc = new jsPDF();
-    doc.text('APA Audit Report', 20, 20);
-    doc.text(`Summary: ${results?.summary || 'No summary'}`, 20, 40);
-    doc.text('Findings:', 20, 60);
+    doc.text('Autonomous Process Auditor Report', 20, 20);
+    doc.text(`Generated: ${new Date().toLocaleDateString()}`, 20, 30);
+    doc.text(`Summary: ${results?.summary || 'Audit completed'}`, 20, 50);
+    doc.text('Key Findings:', 20, 70);
     results?.findings?.forEach((finding: any, index: number) => {
-      doc.text(`${index + 1}. ${finding.summary}`, 20, 80 + index * 10);
+      const y = 90 + index * 20;
+      doc.text(`${index + 1}. ${finding.summary}`, 20, y);
+      doc.text(`Severity: ${finding.severity}`, 30, y + 10);
     });
-    doc.save('audit-report.pdf');
+    doc.text('Recommended Actions:', 20, 150);
+    results?.actions?.forEach((action: any, index: number) => {
+      const y = 170 + index * 15;
+      doc.text(`- ${action.resultJson?.plan || 'Remediation action'}`, 20, y);
+    });
+    doc.save(`apa-report-${id}.pdf`);
   };
 
   if (isLoading) return <div className="p-8">Loading findings...</div>;
@@ -120,17 +139,23 @@ const Findings: React.FC = () => {
       </div>
       {/* Action Buttons */}
       <div className="flex space-x-4 mb-6">
-        <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200">
-          ✅ Apply Now
-        </button>
+        {results?.actions?.map((action: any) => (
+          <button
+            key={action._id}
+            onClick={() => executeAction(action._id)}
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200"
+          >
+            ✅ Execute: {action.actionType}
+          </button>
+        ))}
         <button className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition duration-200">
-          📋 Request Approval
+          📋 Request Manual Approval
         </button>
         <button
           onClick={downloadReport}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
         >
-          📥 Download Report
+          📥 Download Executive Report
         </button>
       </div>
       {/* Feedback Section */}
