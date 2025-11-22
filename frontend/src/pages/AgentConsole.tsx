@@ -20,6 +20,7 @@ const AgentConsole: React.FC = () => {
   return (
     <div className="p-6 bg-gray-50">
       <h1 className="text-2xl font-bold mb-6">Agent Console / Orchestrate Trace</h1>
+      {/* Agent Trace Section */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Agent: Auditor Agent</h3>
@@ -27,6 +28,7 @@ const AgentConsole: React.FC = () => {
             🔄 Replay
           </button>
         </div>
+        {/* Trace Steps */}
         <div className="space-y-4">
           {trace.map(step => (
             <div key={step.step} className="border-l-4 border-blue-500 pl-4">
@@ -40,6 +42,7 @@ const AgentConsole: React.FC = () => {
           ))}
         </div>
       </div>
+      {/* Raw Logs Section */}
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold mb-4">Raw Logs</h3>
         <pre className="bg-gray-100 p-4 rounded text-sm overflow-x-auto">
