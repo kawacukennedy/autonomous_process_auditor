@@ -1,0 +1,12 @@
+[
+  {
+    "email": "admin@apa.com",
+    "role": "admin",
+    "passwordHash": "hashedpassword"
+  },
+  {
+    "email": "user@apa.com",
+    "role": "user",
+    "passwordHash": "hashedpassword"
+  }
+]
