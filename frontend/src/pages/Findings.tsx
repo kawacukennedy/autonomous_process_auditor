@@ -11,11 +11,13 @@ const Findings: React.FC = () => {
   const [rating, setRating] = useState('');
   const [comment, setComment] = useState('');
 
-  const { data: results, isLoading } = useQuery({
+  const { data: results, isLoading, error } = useQuery({
     queryKey: ['results', id],
     queryFn: () => apiClient.get(`/api/v1/results/${id}`),
     enabled: !!id,
   });
+
+  if (error) return <div className="p-8">Error loading findings.</div>;
 
   const feedbackMutation = useMutation({
     mutationFn: (data: any) => apiClient.post('/api/v1/feedback', data),
@@ -33,7 +35,7 @@ const Findings: React.FC = () => {
     doc.save('audit-report.pdf');
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div className="p-8">Loading findings...</div>;
 
   // Mock charts for now, later generate from findings
   const timelineData = [
