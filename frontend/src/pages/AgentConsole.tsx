@@ -1,11 +1,13 @@
 // AgentConsole page for viewing agent traces
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '../api/client';
 
 const AgentConsole: React.FC = () => {
   const { agentId } = useParams<{ agentId: string }>();
+  const [replayIndex, setReplayIndex] = useState(-1);
+  const [isReplaying, setIsReplaying] = useState(false);
 
   const { data: results, isLoading } = useQuery({
     queryKey: ['results', agentId],
@@ -17,6 +19,23 @@ const AgentConsole: React.FC = () => {
 
   const traces = results?.traces || [];
 
+  const handleReplay = () => {
+    setIsReplaying(true);
+    setReplayIndex(0);
+  };
+
+  useEffect(() => {
+    if (isReplaying && replayIndex < traces.length) {
+      const timer = setTimeout(() => {
+        setReplayIndex(replayIndex + 1);
+      }, 2000); // 2 seconds per step
+      return () => clearTimeout(timer);
+    } else if (replayIndex >= traces.length) {
+      setIsReplaying(false);
+      setReplayIndex(-1);
+    }
+  }, [replayIndex, isReplaying, traces.length]);
+
   return (
     <div className="p-8 bg-gray-50">
       <h1 className="text-2xl font-bold mb-6">Agent Console / Orchestrate Trace</h1>
@@ -25,16 +44,22 @@ const AgentConsole: React.FC = () => {
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Agent Traces</h3>
           <button
-            onClick={() => alert('Replaying trace (mock animation)')}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
+            onClick={handleReplay}
+            disabled={isReplaying}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
           >
-            🔄 Replay
+            {isReplaying ? 'Replaying...' : '🔄 Replay'}
           </button>
         </div>
         {/* Trace Steps */}
         <div className="space-y-4">
-          {traces.map((trace: any) => (
-            <div key={trace._id} className="border-l-4 border-blue-500 pl-4">
+          {traces.map((trace: any, index: number) => (
+            <div
+              key={trace._id}
+              className={`border-l-4 pl-4 transition-all duration-500 ${
+                index <= replayIndex ? 'border-green-500 bg-green-50' : 'border-blue-500'
+              }`}
+            >
               <div className="flex justify-between">
                 <h4 className="font-medium">Agent: {trace.agentName} - Step {trace.stepIndex}</h4>
                 <span className="text-sm text-gray-500">{new Date(trace.timestamp).toLocaleTimeString()}</span>
