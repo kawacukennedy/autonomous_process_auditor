@@ -37,6 +37,7 @@ const Findings: React.FC = () => {
             </LineChart>
           </ResponsiveContainer>
         </div>
+        {/* Heatmap Chart */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">Delay Frequency by Process</h3>
           <ResponsiveContainer width="100%" height={300}>
