@@ -59,13 +59,13 @@ const Findings: React.FC = () => {
       </div>
       <div className="flex space-x-4">
         <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200">
-          Apply Now
+          ✅ Apply Now
         </button>
         <button className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition duration-200">
-          Request Approval
+          📋 Request Approval
         </button>
         <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">
-          Download Report
+          📥 Download Report
         </button>
       </div>
     </div>
