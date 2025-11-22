@@ -1,0 +1,32 @@
+[
+  {
+    "agentName": "Auditor Agent",
+    "stepIndex": 1,
+    "inputs": { "event": "approval_delay" },
+    "outputs": { "analysis": "Bottleneck detected" },
+    "toolCalls": [
+      { "tool": "analyze_event", "params": { "eventId": "123" } }
+    ],
+    "timestamp": "2025-11-22T10:00:00Z"
+  },
+  {
+    "agentName": "Recommender Agent",
+    "stepIndex": 2,
+    "inputs": { "analysis": "Bottleneck detected" },
+    "outputs": { "recommendations": ["Automate routing"] },
+    "toolCalls": [
+      { "tool": "generate_plan", "params": { "analysisId": "456" } }
+    ],
+    "timestamp": "2025-11-22T10:00:05Z"
+  },
+  {
+    "agentName": "Executor Agent",
+    "stepIndex": 3,
+    "inputs": { "recommendations": ["Automate routing"] },
+    "outputs": { "execution": "Action applied" },
+    "toolCalls": [
+      { "tool": "execute_action", "params": { "actionId": "789" } }
+    ],
+    "timestamp": "2025-11-22T10:00:10Z"
+  }
+]
