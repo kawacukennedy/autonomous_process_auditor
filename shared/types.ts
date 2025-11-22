@@ -7,6 +7,7 @@ export interface User {
   role: string;
 }
 
+// Connector interface
 export interface Connector {
   id: string;
   name: string;
