@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/apa
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+
+  mongo:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
