@@ -109,10 +109,9 @@ const Findings: React.FC = () => {
       <h1 className="text-2xl font-bold mb-6">Findings & Recommendations</h1>
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+        {/* Timeline Chart */}
         <div className="animate-stagger">
           <div className="card">
-        {/* Timeline Chart */}
-        <div className="card animate-stagger">
           <h3 className="text-large mb-6">Approval Delay Timeline</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={timelineData}>
@@ -122,10 +121,12 @@ const Findings: React.FC = () => {
               <Tooltip />
               <Line type="monotone" dataKey="delays" stroke="#8884d8" />
             </LineChart>
-          </ResponsiveContainer>
+           </ResponsiveContainer>
+          </div>
         </div>
         {/* Heatmap Chart */}
-        <div className="card animate-stagger">
+        <div className="animate-stagger">
+          <div className="card">
           <h3 className="text-large mb-6">Delay Frequency by Process</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={heatmapData}>
@@ -135,10 +136,12 @@ const Findings: React.FC = () => {
               <Tooltip />
               <Bar dataKey="frequency" fill="#82ca9d" />
             </BarChart>
-          </ResponsiveContainer>
+           </ResponsiveContainer>
+          </div>
         </div>
         {/* Swimlane Chart */}
-        <div className="card animate-stagger">
+        <div className="animate-stagger">
+          <div className="card">
           <h3 className="text-large mb-6">Process Swimlane (Stuck Approvals)</h3>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={swimlaneData} layout="horizontal">
@@ -148,7 +151,8 @@ const Findings: React.FC = () => {
               <Tooltip />
               <Bar dataKey="delay" fill="#ff7300" />
             </BarChart>
-          </ResponsiveContainer>
+           </ResponsiveContainer>
+          </div>
         </div>
       </div>
       {/* Remediation Plan Section */}

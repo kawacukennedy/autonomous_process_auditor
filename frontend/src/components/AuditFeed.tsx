@@ -64,7 +64,7 @@ const AuditFeed: React.FC = () => {
       </div>
       <ul className="space-y-4 animate-slide-up">
         {events.map(event => (
-          <li key={event.id} className="flex justify-between items-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md hover:scale-102 animate-fade-in">
+          <li key={event.id} className="flex justify-between items-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 hover:shadow-md hover:scale-105 animate-fade-in">
             <div className="flex-1">
               <p className="font-semibold text-gray-900 dark:text-white mb-1">{event.message}</p>
               <p className="text-sm text-gray-500 dark:text-gray-400">{event.timestamp}</p>
