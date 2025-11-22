@@ -1,3 +1,4 @@
+// Modal dialog component
 import React from 'react';
 
 interface ModalProps {
