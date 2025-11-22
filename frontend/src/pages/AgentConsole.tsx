@@ -15,6 +15,7 @@ const AgentConsole: React.FC = () => {
     { step: 2, action: 'Generate Plan', input: 'Bottleneck data', output: 'Remediation steps', timestamp: '10:00:05' },
     { step: 3, action: 'Execute Action', input: 'Remediation steps', output: 'Action applied', timestamp: '10:00:10' },
     { step: 4, action: 'Log Results', input: 'Execution outcome', output: 'Results logged', timestamp: '10:00:15' },
+    { step: 5, action: 'Notify User', input: 'Results', output: 'Notification sent', timestamp: '10:00:20' },
   ];
 
   return (
