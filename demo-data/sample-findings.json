@@ -1,0 +1,41 @@
+[
+  {
+    "severity": "high",
+    "summary": "Critical approval bottleneck in HR system",
+    "details": {
+      "affectedProcesses": ["Employee Onboarding", "Leave Requests"],
+      "impact": "Delays up to 48 hours"
+    },
+    "suggestedActions": [
+      "Implement automated routing",
+      "Add parallel approval paths",
+      "Notify management for escalations"
+    ]
+  },
+  {
+    "severity": "medium",
+    "summary": "Compliance violation in finance transactions",
+    "details": {
+      "violations": 15,
+      "period": "Last 30 days"
+    },
+    "suggestedActions": [
+      "Enforce approval workflows",
+      "Add training for staff",
+      "Implement audit trails"
+    ]
+  },
+  {
+    "severity": "low",
+    "summary": "Optimization opportunity in supply chain",
+    "details": {
+      "potentialSavings": "$50k annually",
+      "automationRate": "70%"
+    },
+    "suggestedActions": [
+      "Automate reorder processes",
+      "Integrate with inventory system",
+      "Monitor supplier performance"
+    ]
+  }
+]
