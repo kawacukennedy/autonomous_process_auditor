@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
   return (
-    <nav className="bg-blue-600 p-4">
+    <nav className="bg-blue-600 p-4 mb-4">
       <div className="container mx-auto flex justify-between">
         <Link to="/" className="text-white text-xl font-bold">APA</Link>
         <ul className="flex space-x-4">
