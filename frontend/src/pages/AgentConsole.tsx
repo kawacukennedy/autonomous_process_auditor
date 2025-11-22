@@ -23,7 +23,7 @@ const AgentConsole: React.FC = () => {
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Agent: Auditor Agent</h3>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">
             Replay
           </button>
         </div>
