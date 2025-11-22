@@ -60,6 +60,7 @@ const Findings: React.FC = () => {
           <li>Add escalation triggers for delays over 24 hours</li>
           <li>Introduce parallel review processes for high-volume periods</li>
           <li>Optimize workflow notifications to reduce manual checks</li>
+          <li>Integrate AI-powered decision support for complex cases</li>
         </ol>
       </div>
       {/* Action Buttons */}
