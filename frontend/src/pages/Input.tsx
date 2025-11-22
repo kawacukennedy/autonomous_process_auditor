@@ -35,6 +35,7 @@ const Input: React.FC = () => {
           <option value="hr-approval">HR Approval Delays</option>
           <option value="finance-compliance">Finance Compliance</option>
           <option value="it-ticketing">IT Ticketing Bottlenecks</option>
+          <option value="supply-chain">Supply Chain Delays</option>
         </select>
       </div>
       {/* Settings Section */}
