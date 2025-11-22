@@ -15,6 +15,7 @@ function App() {
     <Router>
       <div className="min-h-screen bg-gray-100 flex flex-col">
         <Header />
+        {/* Main content area */}
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Dashboard />} />
