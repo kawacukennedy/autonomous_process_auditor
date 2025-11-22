@@ -10,6 +10,7 @@ import AgentConsole from './pages/AgentConsole';
 import Auth from './pages/Auth';
 import Reports from './pages/Reports'; // Reports page
 
+// App function component
 function App() {
   return (
     <Router>
