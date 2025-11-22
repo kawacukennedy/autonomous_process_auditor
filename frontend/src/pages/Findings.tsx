@@ -1,10 +1,69 @@
 import React from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 const Findings: React.FC = () => {
+  const timelineData = [
+    { time: '09:00', delays: 2 },
+    { time: '10:00', delays: 5 },
+    { time: '11:00', delays: 3 },
+    { time: '12:00', delays: 8 },
+    { time: '13:00', delays: 4 },
+  ];
+
+  const heatmapData = [
+    { process: 'Approval', frequency: 10 },
+    { process: 'Review', frequency: 7 },
+    { process: 'Final Sign-off', frequency: 3 },
+  ];
+
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Findings & Recommendations</h1>
-      <p>View AI output, remediation plans, and visualizations.</p>
+      <h1 className="text-2xl font-bold mb-6">Findings & Recommendations</h1>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Approval Delay Timeline</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={timelineData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="time" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="delays" stroke="#8884d8" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Delay Frequency by Process</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={heatmapData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="process" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="frequency" fill="#82ca9d" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h3 className="text-lg font-semibold mb-4">Remediation Plan</h3>
+        <ol className="list-decimal list-inside space-y-2">
+          <li>Implement automated approval routing for low-risk requests</li>
+          <li>Add escalation triggers for delays over 24 hours</li>
+          <li>Introduce parallel review processes for high-volume periods</li>
+        </ol>
+      </div>
+      <div className="flex space-x-4">
+        <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+          Apply Now
+        </button>
+        <button className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">
+          Request Approval
+        </button>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          Download Report
+        </button>
+      </div>
     </div>
   );
 };
