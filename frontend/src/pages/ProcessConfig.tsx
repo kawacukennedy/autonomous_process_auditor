@@ -12,6 +12,7 @@ const ProcessConfig: React.FC = () => {
   const [connectors, setConnectors] = useState<Connector[]>([
     { id: '1', name: 'HR System', type: 'API', status: 'active' },
     { id: '2', name: 'Finance System', type: 'Webhook', status: 'inactive' },
+    { id: '3', name: 'IT Ticketing', type: 'Database', status: 'active' },
   ]);
 
   const toggleStatus = (id: string) => {
