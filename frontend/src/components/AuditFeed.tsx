@@ -1,3 +1,4 @@
+// AuditFeed component for displaying live audit events
 import React from 'react';
 
 interface AuditEvent {
