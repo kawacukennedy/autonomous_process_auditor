@@ -17,7 +17,7 @@ const AuditFeed: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md m-2">
+    <div className="bg-white p-6 rounded-xl shadow-md m-2">
       <h3 className="text-lg font-semibold mb-4">Live Audit Feed</h3>
       <ul className="space-y-2">
         {events.map(event => (
