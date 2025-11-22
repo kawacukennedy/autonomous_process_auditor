@@ -1,3 +1,4 @@
+// Input page for uploading logs and selecting scenarios
 import React, { useState } from 'react';
 
 const Input: React.FC = () => {
