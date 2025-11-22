@@ -1,18 +1,37 @@
 // Findings page with visualizations and remediation plans
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { apiClient } from '../api/client';
+import jsPDF from 'jspdf';
 
 const Findings: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [rating, setRating] = useState('');
+  const [comment, setComment] = useState('');
 
   const { data: results, isLoading } = useQuery({
     queryKey: ['results', id],
     queryFn: () => apiClient.get(`/api/v1/results/${id}`),
     enabled: !!id,
   });
+
+  const feedbackMutation = useMutation({
+    mutationFn: (data: any) => apiClient.post('/api/v1/feedback', data),
+    onSuccess: () => alert('Feedback submitted!'),
+  });
+
+  const downloadReport = () => {
+    const doc = new jsPDF();
+    doc.text('APA Audit Report', 20, 20);
+    doc.text(`Summary: ${results?.summary || 'No summary'}`, 20, 40);
+    doc.text('Findings:', 20, 60);
+    results?.findings?.forEach((finding: any, index: number) => {
+      doc.text(`${index + 1}. ${finding.summary}`, 20, 80 + index * 10);
+    });
+    doc.save('audit-report.pdf');
+  };
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -33,6 +52,14 @@ const Findings: React.FC = () => {
     { process: 'Final Sign-off', frequency: 3 },
     { process: 'Audit', frequency: 5 },
     { process: 'Validation', frequency: 8 },
+  ];
+
+  // Swimlane data: stages with delays
+  const swimlaneData = [
+    { stage: 'Initiation', start: 0, end: 2, delay: 0 },
+    { stage: 'Approval', start: 2, end: 5, delay: 3 },
+    { stage: 'Review', start: 5, end: 7, delay: 1 },
+    { stage: 'Completion', start: 7, end: 8, delay: 0 },
   ];
 
   return (
@@ -66,6 +93,19 @@ const Findings: React.FC = () => {
             </BarChart>
           </ResponsiveContainer>
         </div>
+        {/* Swimlane Chart */}
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Process Swimlane (Stuck Approvals)</h3>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={swimlaneData} layout="horizontal">
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis type="number" />
+              <YAxis dataKey="stage" type="category" />
+              <Tooltip />
+              <Bar dataKey="delay" fill="#ff7300" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
       {/* Remediation Plan Section */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
@@ -85,7 +125,7 @@ const Findings: React.FC = () => {
           📋 Request Approval
         </button>
         <button
-          onClick={() => alert('Report downloaded (mock)')}
+          onClick={downloadReport}
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200"
         >
           📥 Download Report
@@ -94,19 +134,35 @@ const Findings: React.FC = () => {
       {/* Feedback Section */}
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold mb-4">Provide Feedback</h3>
-        <form className="space-y-4">
+        <form
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            feedbackMutation.mutate({ userId: 'demo-user', findingId: results?.findings?.[0]?._id, rating, comment });
+          }}
+        >
           <div>
             <label className="block text-sm font-medium mb-2">Rating</label>
-            <select className="w-full p-3 border rounded">
-              <option>Excellent</option>
-              <option>Good</option>
-              <option>Neutral</option>
-              <option>Poor</option>
+            <select
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+              className="w-full p-3 border rounded"
+            >
+              <option value="">Select rating</option>
+              <option value="excellent">Excellent</option>
+              <option value="good">Good</option>
+              <option value="neutral">Neutral</option>
+              <option value="poor">Poor</option>
             </select>
           </div>
           <div>
             <label className="block text-sm font-medium mb-2">Comments</label>
-            <textarea className="w-full h-20 p-3 border rounded" placeholder="Your feedback..."></textarea>
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              className="w-full h-20 p-3 border rounded"
+              placeholder="Your feedback..."
+            />
           </div>
           <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
             Submit Feedback
