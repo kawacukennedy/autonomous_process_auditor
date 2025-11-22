@@ -10,6 +10,7 @@ const Findings: React.FC = () => {
     { time: '12:00', delays: 8 },
     { time: '13:00', delays: 4 },
     { time: '14:00', delays: 6 },
+    { time: '15:00', delays: 7 },
   ];
 
   const heatmapData = [
