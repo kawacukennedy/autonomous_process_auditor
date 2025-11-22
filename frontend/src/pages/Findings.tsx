@@ -51,6 +51,7 @@ const Findings: React.FC = () => {
           </ResponsiveContainer>
         </div>
       </div>
+      {/* Remediation Plan Section */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <h3 className="text-lg font-semibold mb-4">Remediation Plan</h3>
         <ol className="list-decimal list-inside space-y-2">
