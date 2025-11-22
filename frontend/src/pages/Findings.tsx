@@ -54,6 +54,7 @@ const Findings: React.FC = () => {
           <li>Implement automated approval routing for low-risk requests</li>
           <li>Add escalation triggers for delays over 24 hours</li>
           <li>Introduce parallel review processes for high-volume periods</li>
+          <li>Optimize workflow notifications to reduce manual checks</li>
         </ol>
       </div>
       <div className="flex space-x-4">
