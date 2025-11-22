@@ -1,0 +1,21 @@
+[
+  {
+    "type": "approval_delay",
+    "source": "HR System",
+    "timestamp": "2025-11-22T10:00:00Z",
+    "details": {
+      "requestId": "REQ-001",
+      "delayHours": 24,
+      "reason": "Awaiting manager approval"
+    }
+  },
+  {
+    "type": "compliance_violation",
+    "source": "Finance System",
+    "timestamp": "2025-11-22T11:00:00Z",
+    "details": {
+      "transactionId": "TXN-002",
+      "violation": "Missing approval for over $10k"
+    }
+  }
+]
