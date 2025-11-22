@@ -5,6 +5,7 @@ import Action from '../models/Action';
 import AgentTrace from '../models/AgentTrace';
 import { analyzeEvents, generateRemediationPlan } from '../services/watsonxService';
 import { runAuditorAgent, runRecommenderAgent } from '../services/orchestrateService';
+import { emitJobUpdate } from '../services/socketService';
 
 // Simulate Orchestrate + watsonx.ai analysis
 const simulateAnalysis = async (input: string) => {
@@ -36,6 +37,7 @@ const worker = new Worker('auditJobs', async (job) => {
   if (!dbJob) throw new Error('Job not found');
   dbJob.status = 'running';
   await dbJob.save();
+  emitJobUpdate(jobId, 'running');
 
   // Create agent trace for Auditor
   const auditorResult = await runAuditorAgent([{ log: dbJob.inputRef }]);
@@ -96,6 +98,7 @@ const worker = new Worker('auditJobs', async (job) => {
   dbJob.status = 'complete';
   dbJob.resultRef = 'findings-generated';
   await dbJob.save();
+  emitJobUpdate(jobId, 'complete');
 
   return { success: true };
 }, {

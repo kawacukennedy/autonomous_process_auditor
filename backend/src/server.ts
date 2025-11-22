@@ -18,12 +18,29 @@ import reportRoutes from './routes/reports';
 import healthRoutes from './routes/health';
 import errorHandler from './middleware/errorHandler';
 import './workers/auditWorker';
+import { Server } from 'socket.io';
+import { createServer } from 'http';
 
 // Load environment variables
 dotenv.config();
 
 // Create Fastify instance with logging
 const fastify = Fastify({ logger: true });
+
+// Create HTTP server for Socket.IO
+const server = createServer(fastify.server);
+
+// Attach Socket.IO
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"]
+  }
+});
+
+// Set socket service
+import { setSocketServer } from './services/socketService';
+setSocketServer(io);
 
 // Connect to MongoDB
 connectDB();
@@ -58,7 +75,9 @@ fastify.get('/', async (request, reply) => {
 // Server startup function
 const start = async () => {
   try {
-    await fastify.listen({ port: 3001, host: '0.0.0.0' });
+    server.listen(3001, '0.0.0.0', () => {
+      console.log('Server listening on port 3001');
+    });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

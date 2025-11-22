@@ -1,7 +1,10 @@
 // AuditFeed component for displaying live audit events
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '../api/client';
+import { io } from 'socket.io-client';
+
+const socket = io('http://localhost:3001');
 
 interface Job {
   _id: string;
@@ -10,11 +13,20 @@ interface Job {
 }
 
 const AuditFeed: React.FC = () => {
-  const { data: jobs, isLoading } = useQuery({
+  const { data: jobs, isLoading, refetch } = useQuery({
     queryKey: ['jobs'],
     queryFn: () => apiClient.get('/api/v1/jobs'),
-    refetchInterval: 5000, // Poll every 5 seconds for real-time
   });
+
+  useEffect(() => {
+    socket.on('jobUpdate', () => {
+      refetch();
+    });
+
+    return () => {
+      socket.off('jobUpdate');
+    };
+  }, [refetch]);
 
   const events = jobs?.slice(0, 10).map((job: Job) => ({
     id: job._id,

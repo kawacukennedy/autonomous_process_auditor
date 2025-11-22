@@ -1,6 +1,7 @@
 // Main App component with routing
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { io } from 'socket.io-client';
 import Header from './components/Header'; // Header component
 import Footer from './components/Footer'; // Footer component
 import Dashboard from './pages/Dashboard';
@@ -12,6 +13,9 @@ import Auth from './pages/Auth';
 import Reports from './pages/Reports'; // Reports page
 
 const queryClient = new QueryClient();
+
+// Connect to Socket.IO
+const socket = io('http://localhost:3001');
 
 // App function component
 function App() {
