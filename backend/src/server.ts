@@ -52,7 +52,7 @@ fastify.get('/', async (request, reply) => {
   return { hello: 'world' };
 });
 
-// Start server
+// Server startup function
 const start = async () => {
   try {
     await fastify.listen({ port: 3001, host: '0.0.0.0' });
