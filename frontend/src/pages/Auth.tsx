@@ -48,7 +48,7 @@ const Auth: React.FC = () => {
         </div>
         <button
           onClick={handleLogin}
-          className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700"
+          className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition duration-200"
         >
           Login
         </button>
