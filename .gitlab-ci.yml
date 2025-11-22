@@ -1,0 +1,70 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+# Test stage
+test:backend:
+  stage: test
+  image: node:18
+  before_script:
+    - cd backend
+    - npm install
+  script:
+    - npm run lint
+    - npm test
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - backend/node_modules/
+
+test:frontend:
+  stage: test
+  image: node:18
+  before_script:
+    - cd frontend
+    - npm install
+  script:
+    - npm run lint
+    - npm test
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - frontend/node_modules/
+
+# Build stage
+build:backend:
+  stage: build
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  script:
+    - cd backend
+    - docker build -t apa-backend:$CI_COMMIT_SHA .
+  only:
+    - main
+
+build:frontend:
+  stage: build
+  image: node:18
+  before_script:
+    - cd frontend
+    - npm install
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/
+  only:
+    - main
+
+# Deploy stage (placeholder)
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying to production..."
+  only:
+    - main
