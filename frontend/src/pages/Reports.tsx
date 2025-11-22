@@ -14,6 +14,7 @@ const Reports: React.FC = () => {
     { id: '2', name: 'Risk Exposures', description: 'Identified risks and mitigation plans', lastGenerated: '2025-11-20' },
     { id: '3', name: 'Savings Forecast', description: 'Projected cost savings from optimizations', lastGenerated: '2025-11-18' },
     { id: '4', name: 'Compliance Report', description: 'Detailed compliance audit results', lastGenerated: '2025-11-15' },
+    { id: '5', name: 'Performance Metrics', description: 'Key performance indicators and trends', lastGenerated: '2025-11-12' },
   ]);
 
   const generateReport = (id: string) => {
