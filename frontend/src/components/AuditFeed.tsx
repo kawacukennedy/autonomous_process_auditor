@@ -14,6 +14,7 @@ const AuditFeed: React.FC = () => {
     { id: '1', type: 'approval_delay', message: 'Approval delayed in HR system', timestamp: '2025-11-22T10:00:00Z', severity: 'medium' },
     { id: '2', type: 'compliance', message: 'Compliance check passed', timestamp: '2025-11-22T09:30:00Z', severity: 'low' },
     { id: '3', type: 'bottleneck', message: 'Bottleneck detected in finance approval', timestamp: '2025-11-22T08:45:00Z', severity: 'high' },
+    { id: '4', type: 'optimization', message: 'Optimization suggestion generated', timestamp: '2025-11-22T08:00:00Z', severity: 'low' },
   ];
 
   return (
