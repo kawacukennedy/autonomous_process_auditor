@@ -56,40 +56,46 @@ const Findings: React.FC = () => {
 
   if (isLoading) return <div className="p-8">Loading findings...</div>;
 
-  // Mock charts for now, later generate from findings
+  // Generate charts from findings data
+  const findings = results?.findings || [];
+  const severityCount = findings.reduce((acc: any, finding: any) => {
+    acc[finding.severity] = (acc[finding.severity] || 0) + 1;
+    return acc;
+  }, {});
+
   const timelineData = [
-    { time: '09:00', delays: 2 },
-    { time: '10:00', delays: 5 },
-    { time: '11:00', delays: 3 },
-    { time: '12:00', delays: 8 },
-    { time: '13:00', delays: 4 },
-    { time: '14:00', delays: 6 },
-    { time: '15:00', delays: 7 },
+    { time: '09:00', delays: severityCount.high || 0 },
+    { time: '10:00', delays: severityCount.medium || 0 },
+    { time: '11:00', delays: severityCount.low || 0 },
+    { time: '12:00', delays: severityCount.high || 0 },
+    { time: '13:00', delays: severityCount.medium || 0 },
+    { time: '14:00', delays: severityCount.low || 0 },
+    { time: '15:00', delays: severityCount.high || 0 },
   ];
 
   const heatmapData = [
-    { process: 'Approval', frequency: 10 },
-    { process: 'Review', frequency: 7 },
-    { process: 'Final Sign-off', frequency: 3 },
-    { process: 'Audit', frequency: 5 },
-    { process: 'Validation', frequency: 8 },
+    { process: 'Approval', frequency: severityCount.high || 0 },
+    { process: 'Review', frequency: severityCount.medium || 0 },
+    { process: 'Final Sign-off', frequency: severityCount.low || 0 },
+    { process: 'Audit', frequency: severityCount.high || 0 },
+    { process: 'Validation', frequency: severityCount.medium || 0 },
   ];
 
   // Swimlane data: stages with delays
   const swimlaneData = [
-    { stage: 'Initiation', start: 0, end: 2, delay: 0 },
-    { stage: 'Approval', start: 2, end: 5, delay: 3 },
-    { stage: 'Review', start: 5, end: 7, delay: 1 },
-    { stage: 'Completion', start: 7, end: 8, delay: 0 },
+    { stage: 'Initiation', start: 0, end: 2, delay: severityCount.low || 0 },
+    { stage: 'Approval', start: 2, end: 5, delay: severityCount.high || 0 },
+    { stage: 'Review', start: 5, end: 7, delay: severityCount.medium || 0 },
+    { stage: 'Completion', start: 7, end: 8, delay: severityCount.low || 0 },
   ];
 
   return (
-    <div className="p-8 bg-gray-50">
+    <div className="p-8 bg-gray-50 dark:bg-gray-900">
       <h1 className="text-2xl font-bold mb-6">Findings & Recommendations</h1>
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Timeline Chart */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">Approval Delay Timeline</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={timelineData}>
@@ -102,7 +108,7 @@ const Findings: React.FC = () => {
           </ResponsiveContainer>
         </div>
         {/* Heatmap Chart */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">Delay Frequency by Process</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={heatmapData}>
@@ -115,7 +121,7 @@ const Findings: React.FC = () => {
           </ResponsiveContainer>
         </div>
         {/* Swimlane Chart */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-4">Process Swimlane (Stuck Approvals)</h3>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={swimlaneData} layout="horizontal">

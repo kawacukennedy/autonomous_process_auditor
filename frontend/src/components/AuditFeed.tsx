@@ -1,5 +1,5 @@
 // AuditFeed component for displaying live audit events
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '../api/client';
 import { io } from 'socket.io-client';
@@ -21,6 +21,7 @@ interface Event {
 }
 
 const AuditFeed: React.FC = () => {
+  const [filter, setFilter] = useState<'all' | 'low' | 'medium' | 'high'>('all');
   const { data: jobs, refetch } = useQuery({
     queryKey: ['jobs'],
     queryFn: () => apiClient.get('/api/v1/jobs'),
@@ -36,7 +37,7 @@ const AuditFeed: React.FC = () => {
     };
   }, [refetch]);
 
-  const events: Event[] = jobs?.slice(0, 10).map((job: Job) => ({
+  const allEvents: Event[] = jobs?.slice(0, 10).map((job: Job) => ({
     id: job._id,
     type: 'job',
     message: `Job ${job.status}: Audit processing`,
@@ -44,9 +45,23 @@ const AuditFeed: React.FC = () => {
     severity: job.status === 'complete' ? 'low' : 'medium' as 'low' | 'medium' | 'high',
   })) || [];
 
+  const events = filter === 'all' ? allEvents : allEvents.filter(e => e.severity === filter);
+
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md m-2">
-      <h3 className="text-lg font-semibold mb-4">Live Audit Feed</h3>
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md m-2">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold">Live Audit Feed</h3>
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value as 'all' | 'low' | 'medium' | 'high')}
+          className="border rounded px-2 py-1 text-sm"
+        >
+          <option value="all">All</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
       <ul className="space-y-2">
         {events.map(event => (
           <li key={event.id} className="flex justify-between items-center p-2 border-b">
