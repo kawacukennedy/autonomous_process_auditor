@@ -1,5 +1,7 @@
 // Reports page for generating and downloading reports
 import React, { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { apiClient } from '../api/client';
 
 interface Report {
   id: string;
@@ -10,15 +12,28 @@ interface Report {
 
 const Reports: React.FC = () => {
   const [reports] = useState<Report[]>([
-    { id: '1', name: 'Weekly Summary', description: 'Overview of weekly audit activities', lastGenerated: '2025-11-22' },
-    { id: '2', name: 'Risk Exposures', description: 'Identified risks and mitigation plans', lastGenerated: '2025-11-20' },
-    { id: '3', name: 'Savings Forecast', description: 'Projected cost savings from optimizations', lastGenerated: '2025-11-18' },
-    { id: '4', name: 'Compliance Report', description: 'Detailed compliance audit results', lastGenerated: '2025-11-15' },
-    { id: '5', name: 'Performance Metrics', description: 'Key performance indicators and trends', lastGenerated: '2025-11-12' },
+    { id: 'weekly-summary', name: 'Weekly Summary', description: 'Overview of weekly audit activities', lastGenerated: '2025-11-22' },
+    { id: 'risk-exposures', name: 'Risk Exposures', description: 'Identified risks and mitigation plans', lastGenerated: '2025-11-20' },
+    { id: 'savings-forecast', name: 'Savings Forecast', description: 'Projected cost savings from optimizations', lastGenerated: '2025-11-18' },
+    { id: 'compliance-report', name: 'Compliance Report', description: 'Detailed compliance audit results', lastGenerated: '2025-11-15' },
+    { id: 'performance-metrics', name: 'Performance Metrics', description: 'Key performance indicators and trends', lastGenerated: '2025-11-12' },
   ]);
 
-  const generateReport = (id: string) => {
-    alert(`Generating report ${id}`);
+  const generateMutation = useMutation({
+    mutationFn: (type: string) => apiClient.post(`/api/v1/reports/generate/${type}`, {}),
+    onSuccess: (data) => alert(data.message),
+  });
+
+  const generateReport = (type: string) => {
+    generateMutation.mutate(type);
+  };
+
+  const downloadReport = (type: string) => {
+    // Mock download
+    const link = document.createElement('a');
+    link.href = `/mock-reports/${type}.pdf`; // In real, use API
+    link.download = `${type}.pdf`;
+    link.click();
   };
 
   return (
@@ -43,7 +58,10 @@ const Reports: React.FC = () => {
                 >
                   ⚙️ Generate
                 </button>
-                <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200">
+                <button
+                  onClick={() => downloadReport(report.id)}
+                  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200"
+                >
                   📥 Download
                 </button>
               </div>

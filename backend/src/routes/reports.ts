@@ -14,4 +14,11 @@ export default async function reportRoutes(fastify: FastifyInstance) {
     await report.save();
     return report;
   });
+
+  fastify.post('/api/v1/reports/generate/:type', async (request, reply) => {
+    const { type } = request.params as { type: string };
+    // Mock report generation
+    const pdfPath = `/reports/${type}-${Date.now()}.pdf`;
+    return { pdfPath, message: `${type} report generated` };
+  });
 }
