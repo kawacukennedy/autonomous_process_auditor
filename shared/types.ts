@@ -1,0 +1,36 @@
+// Shared types for the application
+
+export interface User {
+  id: string;
+  email: string;
+  role: string;
+}
+
+export interface Connector {
+  id: string;
+  name: string;
+  type: string;
+  status: 'active' | 'inactive';
+}
+
+export interface Event {
+  id: string;
+  type: string;
+  message: string;
+  timestamp: string;
+  severity: 'low' | 'medium' | 'high';
+}
+
+export interface Job {
+  id: string;
+  status: 'pending' | 'running' | 'failed' | 'complete';
+  inputRef: string;
+  resultRef?: string;
+}
+
+export interface Finding {
+  id: string;
+  severity: 'low' | 'medium' | 'high';
+  summary: string;
+  suggestedActions: string[];
+}
