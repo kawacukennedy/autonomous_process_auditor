@@ -1,3 +1,4 @@
+// ProcessConfig page for managing connectors
 import React, { useState } from 'react';
 
 interface Connector {
