@@ -1,0 +1,12 @@
+[
+  {
+    "actionType": "notify",
+    "targetSystem": "email",
+    "status": "pending"
+  },
+  {
+    "actionType": "escalate",
+    "targetSystem": "slack",
+    "status": "executed"
+  }
+]
