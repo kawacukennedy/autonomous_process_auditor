@@ -24,3 +24,9 @@ services:
     image: redis:7-alpine
     ports:
       - "6379:6379"
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268:14268"

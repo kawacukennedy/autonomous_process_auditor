@@ -21,9 +21,23 @@ import errorHandler from './middleware/errorHandler';
 import './workers/auditWorker';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
+import { NodeSDK } from '@opentelemetry/sdk-node';
+import { JaegerExporter } from '@opentelemetry/exporter-jaeger';
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 
 // Load environment variables
 dotenv.config();
+
+// Initialize OpenTelemetry
+const sdk = new NodeSDK({
+  serviceName: 'apa-backend',
+  traceExporter: new JaegerExporter({
+    endpoint: 'http://localhost:14268/api/traces',
+  }),
+  instrumentations: [getNodeAutoInstrumentations()],
+});
+
+sdk.start();
 
 // Create Fastify instance with logging
 const fastify = Fastify({ logger: true });
