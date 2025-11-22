@@ -12,7 +12,14 @@ interface Connector {
 
 const ProcessConfig: React.FC = () => {
   const queryClient = useQueryClient();
-  const [newConnector, setNewConnector] = useState({ type: '', config: {} });
+  const [showWizard, setShowWizard] = useState(false);
+  const [wizardStep, setWizardStep] = useState(1);
+  const [newConnector, setNewConnector] = useState({
+    type: '',
+    dataSource: '',
+    mapping: {},
+    thresholds: { sensitivity: 5, autoRemediate: false, notifyChannels: [] }
+  });
 
   const { data: connectors, isLoading } = useQuery({
     queryKey: ['connectors'],
@@ -31,8 +38,18 @@ const ProcessConfig: React.FC = () => {
   });
 
   const handleCreate = () => {
-    registerMutation.mutate(newConnector);
-    setNewConnector({ type: '', config: {} });
+    registerMutation.mutate({
+      type: newConnector.dataSource,
+      config: { mapping: newConnector.mapping, thresholds: newConnector.thresholds }
+    });
+    setNewConnector({
+      type: '',
+      dataSource: '',
+      mapping: {},
+      thresholds: { sensitivity: 5, autoRemediate: false, notifyChannels: [] }
+    });
+    setShowWizard(false);
+    setWizardStep(1);
   };
 
   const toggleStatus = (id: string, currentStatus: string) => {
@@ -43,27 +60,105 @@ const ProcessConfig: React.FC = () => {
   if (isLoading) return <div>Loading connectors...</div>;
 
   return (
-    <div className="p-8 bg-gray-50">
+    <div className="p-8 bg-gray-50 dark:bg-gray-900">
       <h1 className="text-2xl font-bold mb-6">Process Configuration</h1>
-      <div className="mb-6 bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold mb-4">Create New Monitor</h3>
-        <div className="space-y-4">
-          <input
-            type="text"
-            placeholder="Connector Type"
-            value={newConnector.type}
-            onChange={(e) => setNewConnector({ ...newConnector, type: e.target.value })}
-            className="w-full p-3 border rounded"
-          />
+      <div className="mb-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold">Create New Monitor</h3>
           <button
-            onClick={handleCreate}
+            onClick={() => setShowWizard(true)}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
-            ➕ Create
+            ➕ Start Wizard
           </button>
         </div>
+        {showWizard && (
+          <div className="border-t pt-4">
+            <div className="flex mb-4">
+              {[1, 2, 3].map(step => (
+                <div key={step} className={`flex-1 text-center ${wizardStep >= step ? 'text-blue-600' : 'text-gray-400'}`}>
+                  Step {step}
+                </div>
+              ))}
+            </div>
+            {wizardStep === 1 && (
+              <div className="space-y-4">
+                <h4 className="font-medium">Select Data Source</h4>
+                <select
+                  value={newConnector.dataSource}
+                  onChange={(e) => setNewConnector({ ...newConnector, dataSource: e.target.value })}
+                  className="w-full p-3 border rounded"
+                >
+                  <option value="">Choose data source...</option>
+                  <option value="hr-system">HR System</option>
+                  <option value="finance-system">Finance System</option>
+                  <option value="it-ticketing">IT Ticketing</option>
+                  <option value="google-sheets">Google Sheets</option>
+                </select>
+                <button
+                  onClick={() => setWizardStep(2)}
+                  disabled={!newConnector.dataSource}
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+            {wizardStep === 2 && (
+              <div className="space-y-4">
+                <h4 className="font-medium">Configure Mapping</h4>
+                <input
+                  type="text"
+                  placeholder="Field mapping (JSON)"
+                  value={JSON.stringify(newConnector.mapping)}
+                  onChange={(e) => setNewConnector({ ...newConnector, mapping: JSON.parse(e.target.value || '{}') })}
+                  className="w-full p-3 border rounded"
+                />
+                <div className="flex space-x-2">
+                  <button onClick={() => setWizardStep(1)} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
+                  <button onClick={() => setWizardStep(3)} className="bg-blue-600 text-white px-4 py-2 rounded">Next</button>
+                </div>
+              </div>
+            )}
+            {wizardStep === 3 && (
+              <div className="space-y-4">
+                <h4 className="font-medium">Set Thresholds</h4>
+                <div>
+                  <label className="block text-sm mb-2">Sensitivity: {newConnector.thresholds.sensitivity}</label>
+                  <input
+                    type="range"
+                    min="1"
+                    max="10"
+                    value={newConnector.thresholds.sensitivity}
+                    onChange={(e) => setNewConnector({
+                      ...newConnector,
+                      thresholds: { ...newConnector.thresholds, sensitivity: Number(e.target.value) }
+                    })}
+                    className="w-full"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={newConnector.thresholds.autoRemediate}
+                    onChange={(e) => setNewConnector({
+                      ...newConnector,
+                      thresholds: { ...newConnector.thresholds, autoRemediate: e.target.checked }
+                    })}
+                    className="mr-2"
+                  />
+                  <label>Auto-Remediate</label>
+                </div>
+                <div className="flex space-x-2">
+                  <button onClick={() => setWizardStep(2)} className="bg-gray-500 text-white px-4 py-2 rounded">Back</button>
+                  <button onClick={handleCreate} className="bg-green-600 text-white px-4 py-2 rounded">Create</button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
-      <div className="bg-white p-6 rounded-lg shadow-md">
+       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold mb-4">Monitored Workflows</h3>
         <ul className="space-y-4">
           {connectors?.map((connector: Connector) => (

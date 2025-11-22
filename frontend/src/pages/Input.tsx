@@ -7,10 +7,14 @@ import { apiClient } from '../api/client';
 const Input: React.FC = () => {
   const [inputText, setInputText] = useState('');
   const [selectedScenario, setSelectedScenario] = useState('');
+  const [threshold, setThreshold] = useState(5);
+  const [autoRemediate, setAutoRemediate] = useState(false);
+  const [policySet, setPolicySet] = useState('default');
+  const [scope, setScope] = useState('full');
   const navigate = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: (data: { input: string }) => apiClient.post('/api/v1/process', data),
+    mutationFn: (data: { input: string; settings: any }) => apiClient.post('/api/v1/process', data),
     onSuccess: (data) => {
       navigate(`/findings/${data.jobId}`);
     },
@@ -18,7 +22,8 @@ const Input: React.FC = () => {
 
   const handleSubmit = () => {
     const input = inputText || `Scenario: ${selectedScenario}`;
-    mutation.mutate({ input });
+    const settings = { threshold, autoRemediate, policySet, scope };
+    mutation.mutate({ input, settings });
   };
 
   return (
@@ -49,28 +54,84 @@ const Input: React.FC = () => {
           <option value="supply-chain">Supply Chain Delays</option>
         </select>
       </div>
-      {/* Settings Section */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold mb-4">Settings</h3>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-2">Sensitivity Threshold</label>
-            <input type="range" min="1" max="10" className="w-full" />
-          </div>
-          <div className="flex items-center">
-            <input type="checkbox" id="auto-remediate" className="mr-2" />
-            <label htmlFor="auto-remediate">Enable Auto-Remediation</label>
-          </div>
-        </div>
-      </div>
-      <div className="mt-6">
-        <button
-          onClick={handleSubmit}
-          className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-200"
-        >
-          🤖 Analyze & Recommend
-        </button>
-      </div>
+       {/* Settings Section */}
+       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+         <h3 className="text-lg font-semibold mb-4">Analysis Settings</h3>
+         <div className="space-y-4">
+           <div>
+             <label className="block text-sm font-medium mb-2">Sensitivity Threshold: {threshold}</label>
+             <input
+               type="range"
+               min="1"
+               max="10"
+               value={threshold}
+               onChange={(e) => setThreshold(Number(e.target.value))}
+               className="w-full"
+             />
+           </div>
+           <div>
+             <label className="block text-sm font-medium mb-2">Policy Set</label>
+             <select
+               value={policySet}
+               onChange={(e) => setPolicySet(e.target.value)}
+               className="w-full p-3 border rounded"
+             >
+               <option value="default">Default Policies</option>
+               <option value="strict">Strict Compliance</option>
+               <option value="lenient">Lenient Monitoring</option>
+             </select>
+           </div>
+           <div>
+             <label className="block text-sm font-medium mb-2">Remediation Scope</label>
+             <select
+               value={scope}
+               onChange={(e) => setScope(e.target.value)}
+               className="w-full p-3 border rounded"
+             >
+               <option value="full">Full Automation</option>
+               <option value="partial">Partial Automation</option>
+               <option value="manual">Manual Only</option>
+             </select>
+           </div>
+           <div className="flex items-center">
+             <input
+               type="checkbox"
+               id="auto-remediate"
+               checked={autoRemediate}
+               onChange={(e) => setAutoRemediate(e.target.checked)}
+               className="mr-2"
+             />
+             <label htmlFor="auto-remediate">Enable Auto-Remediation</label>
+           </div>
+         </div>
+       </div>
+       <div className="mt-6">
+         <button
+           onClick={handleSubmit}
+           disabled={mutation.isPending}
+           className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 disabled:opacity-50 transition duration-200 flex items-center space-x-2"
+         >
+           {mutation.isPending ? (
+             <>
+               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+               <span>Analyzing...</span>
+             </>
+           ) : (
+             <>
+               <span>🤖</span>
+               <span>Analyze & Recommend</span>
+             </>
+           )}
+         </button>
+         {mutation.isPending && (
+           <div className="mt-4">
+             <div className="w-full bg-gray-200 rounded-full h-2">
+               <div className="bg-blue-600 h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+             </div>
+             <p className="text-sm text-gray-600 mt-2">Processing your input...</p>
+           </div>
+         )}
+       </div>
     </div>
   );
 };
