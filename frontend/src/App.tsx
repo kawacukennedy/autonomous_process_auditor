@@ -8,7 +8,7 @@ import Input from './pages/Input';
 import Findings from './pages/Findings';
 import AgentConsole from './pages/AgentConsole';
 import Auth from './pages/Auth';
-import Reports from './pages/Reports';
+import Reports from './pages/Reports'; // Reports page
 
 function App() {
   return (
