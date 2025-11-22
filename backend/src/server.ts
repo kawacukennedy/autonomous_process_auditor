@@ -38,6 +38,10 @@ fastify.register(jobRoutes);
 fastify.register(resultRoutes);
 fastify.register(actionRoutes);
 fastify.register(feedbackRoutes);
+fastify.register(teamRoutes);
+fastify.register(findingRoutes);
+fastify.register(agentTraceRoutes);
+fastify.register(reportRoutes);
 
 // Routes
 fastify.get('/', async (request, reply) => {
