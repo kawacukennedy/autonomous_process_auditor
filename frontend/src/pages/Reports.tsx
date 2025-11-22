@@ -1,3 +1,4 @@
+// Reports page for generating and downloading reports
 import React, { useState } from 'react';
 
 interface Report {
