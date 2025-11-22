@@ -21,6 +21,7 @@ const Dashboard: React.FC = () => {
           <p className="text-gray-600">Activity list here...</p>
         </div>
       </div>
+      {/* Action Buttons */}
       <div className="mt-6">
         <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">
           🔍 Run Live Audit
