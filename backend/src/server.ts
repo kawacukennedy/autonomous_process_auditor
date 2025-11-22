@@ -15,6 +15,7 @@ import teamRoutes from './routes/teams';
 import findingRoutes from './routes/findings';
 import agentTraceRoutes from './routes/agentTraces';
 import reportRoutes from './routes/reports';
+import errorHandler from './middleware/errorHandler';
 
 dotenv.config();
 
