@@ -9,5 +9,16 @@
     "name": "Compliance Check",
     "rules": ["require_approval_over_10k"],
     "action": "block"
+  },
+  {
+    "name": "Bottleneck Detection",
+    "threshold": 24,
+    "unit": "hours",
+    "action": "escalate"
+  },
+  {
+    "name": "Optimization Suggestion",
+    "rules": ["check_automation_potential"],
+    "action": "recommend"
   }
 ]
