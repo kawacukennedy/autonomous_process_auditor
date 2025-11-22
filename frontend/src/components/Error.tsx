@@ -1,3 +1,4 @@
+// Error message component
 import React from 'react';
 
 interface ErrorProps {
