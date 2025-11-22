@@ -13,6 +13,7 @@ const Input: React.FC = () => {
   return (
     <div className="p-6 bg-gray-50">
       <h1 className="text-2xl font-bold mb-6">Core Feature Input</h1>
+      {/* Upload Logs Section */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <h3 className="text-lg font-semibold mb-4">Upload Sample Logs</h3>
         <textarea
@@ -22,6 +23,7 @@ const Input: React.FC = () => {
           className="w-full h-32 p-3 border rounded resize-none"
         />
       </div>
+      {/* Scenario Selection */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <h3 className="text-lg font-semibold mb-4">Select Demo Scenario</h3>
         <select
@@ -35,6 +37,7 @@ const Input: React.FC = () => {
           <option value="it-ticketing">IT Ticketing Bottlenecks</option>
         </select>
       </div>
+      {/* Settings Section */}
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold mb-4">Settings</h3>
         <div className="space-y-4">
