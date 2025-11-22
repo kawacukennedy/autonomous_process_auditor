@@ -1,3 +1,4 @@
+// Auth page for user login
 import React, { useState } from 'react';
 
 const Auth: React.FC = () => {
