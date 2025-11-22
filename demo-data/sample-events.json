@@ -17,5 +17,24 @@
       "transactionId": "TXN-002",
       "violation": "Missing approval for over $10k"
     }
+  },
+  {
+    "type": "bottleneck",
+    "source": "IT Ticketing",
+    "timestamp": "2025-11-22T12:00:00Z",
+    "details": {
+      "ticketId": "TKT-003",
+      "queueTime": 48,
+      "reason": "Resource shortage"
+    }
+  },
+  {
+    "type": "optimization",
+    "source": "Supply Chain",
+    "timestamp": "2025-11-22T13:00:00Z",
+    "details": {
+      "orderId": "ORD-004",
+      "suggestion": "Automate reorder process"
+    }
   }
 ]
