@@ -1,8 +1,8 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import jwt from '@fastify/jwt';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { connectDB } from './config/database';
 import authRoutes from './routes/auth';
 import connectorRoutes from './routes/connectors';
 import eventRoutes from './routes/events';
@@ -22,9 +22,7 @@ dotenv.config();
 const fastify = Fastify({ logger: true });
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/apa')
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+connectDB();
 
 // Register plugins
 fastify.register(cors);
