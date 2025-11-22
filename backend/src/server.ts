@@ -33,7 +33,7 @@ fastify.register(jwt, { secret: process.env.JWT_SECRET || 'secret' });
 // Register error handler
 fastify.register(errorHandler);
 
-// Register routes
+// Register API routes
 fastify.register(authRoutes);
 fastify.register(connectorRoutes);
 fastify.register(eventRoutes);
