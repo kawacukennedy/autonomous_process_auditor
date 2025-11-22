@@ -17,6 +17,7 @@ function App() {
         <Header />
         {/* Main content area */}
         <main className="flex-grow">
+          {/* Application Routes */}
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/processes" element={<ProcessConfig />} />
