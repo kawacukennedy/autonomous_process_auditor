@@ -60,6 +60,10 @@ setSocketServer(io);
 // Connect to MongoDB
 connectDB();
 
+// Seed demo data
+import { seedDemoData } from './services/seederService';
+seedDemoData();
+
 // Register plugins
 fastify.register(cors);
 fastify.register(jwt, { secret: process.env.JWT_SECRET || 'secret' });
