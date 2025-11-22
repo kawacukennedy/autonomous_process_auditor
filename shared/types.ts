@@ -24,6 +24,7 @@ export interface Event {
   severity: 'low' | 'medium' | 'high';
 }
 
+// Job interface
 export interface Job {
   id: string;
   status: 'pending' | 'running' | 'failed' | 'complete';
