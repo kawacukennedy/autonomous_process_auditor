@@ -15,6 +15,7 @@ const Auth: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md border">
         <h1 className="text-2xl font-bold mb-6 text-center">Login to APA</h1>
+        {/* Email Field */}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2">Email</label>
           <input
@@ -25,6 +26,7 @@ const Auth: React.FC = () => {
             placeholder="Enter your email"
           />
         </div>
+        {/* Password Field */}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2">Password</label>
           <input
@@ -35,6 +37,7 @@ const Auth: React.FC = () => {
             placeholder="Enter your password"
           />
         </div>
+        {/* Demo Mode Checkbox */}
         <div className="mb-6">
           <label className="flex items-center">
             <input
