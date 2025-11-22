@@ -11,7 +11,7 @@ const Input: React.FC = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-gray-50">
       <h1 className="text-2xl font-bold mb-6">Core Feature Input</h1>
       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
         <h3 className="text-lg font-semibold mb-4">Upload Sample Logs</h3>
