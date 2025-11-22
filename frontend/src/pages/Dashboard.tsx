@@ -1,3 +1,4 @@
+// Dashboard page with KPIs and audit feed
 import React from 'react';
 import KPICard from '../components/KPICard';
 import AuditFeed from '../components/AuditFeed';
