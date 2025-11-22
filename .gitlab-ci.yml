@@ -15,7 +15,8 @@ test:backend:
     - npm install
   script:
     - npm run lint
-    - npm test
+    - npm test -- --coverage
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
@@ -29,7 +30,8 @@ test:frontend:
     - npm install
   script:
     - npm run lint
-    - npm test
+    - npm test -- --coverage
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
   cache:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
