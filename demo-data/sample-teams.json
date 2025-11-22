@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Operations Team",
+    "billingPlaceholder": "billing@ops.com"
+  },
+  {
+    "name": "IT Team",
+    "billingPlaceholder": "billing@it.com"
+  }
+]
