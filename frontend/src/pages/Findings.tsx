@@ -61,6 +61,7 @@ const Findings: React.FC = () => {
           <li>Optimize workflow notifications to reduce manual checks</li>
         </ol>
       </div>
+      {/* Action Buttons */}
       <div className="flex space-x-4">
         <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-200">
           ✅ Apply Now
