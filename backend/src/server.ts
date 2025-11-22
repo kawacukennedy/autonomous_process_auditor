@@ -11,6 +11,10 @@ import jobRoutes from './routes/jobs';
 import resultRoutes from './routes/results';
 import actionRoutes from './routes/actions';
 import feedbackRoutes from './routes/feedback';
+import teamRoutes from './routes/teams';
+import findingRoutes from './routes/findings';
+import agentTraceRoutes from './routes/agentTraces';
+import reportRoutes from './routes/reports';
 
 dotenv.config();
 
