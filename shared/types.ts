@@ -15,6 +15,7 @@ export interface Connector {
   status: 'active' | 'inactive';
 }
 
+// Event interface
 export interface Event {
   id: string;
   type: string;
